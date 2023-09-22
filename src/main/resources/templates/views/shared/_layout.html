@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Hotelier - Hotel HTML Template</title>
+	<title>Polysort - Hotel HTML Template</title>
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<meta content="" name="keywords">
 	<meta content="" name="description">
@@ -51,7 +51,7 @@
 				<div class="col-lg-3 bg-dark d-none d-lg-block">
 					<a href="index"
 						class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
-						<h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
+						<h1 class="m-0 text-primary text-uppercase">Polysort</h1>
 					</a>
 				</div>
 				<div class="col-lg-9">
@@ -78,7 +78,7 @@
 					</div>
 					<nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
 						<a href="index" class="navbar-brand d-block d-lg-none">
-							<h1 class="m-0 text-primary text-uppercase">Hotelier</h1>
+							<h1 class="m-0 text-primary text-uppercase">Polysort</h1>
 						</a>
 						<button type="button" class="navbar-toggler" data-bs-toggle="collapse"
 							data-bs-target="#navbarCollapse">
@@ -87,40 +87,56 @@
 						<div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
 							<div class="navbar-nav mr-auto py-0">
 
-								<!--<div>
-									<p th:switch="${var}">
-										<span th:case="1">555</span>
-										<span th:case="2">444</span>
-										<span th:case="3">333</span>
-									</p>
-								</div>-->
 
-								<a href="index" class="nav-item nav-link" th:classappend="${var == 1 ? 'active' : ''}">Home</a>
-								<a href="about" class="nav-item nav-link" th:classappend="${var == 2 ? 'active' : ''}">About</a>
-								<a href="service" class="nav-item nav-link" th:classappend="${var == 3 ? 'active' : ''}">Services</a>
-								<a href="room" class="nav-item nav-link" th:classappend="${var == 4 ? 'active' : ''}">Rooms</a>
-									
 
-								<!--<a href="index" class="nav-item nav-link active">Home</a>
-								<a href="about" class="nav-item nav-link">About</a>
-								<a href="service" class="nav-item nav-link">Services</a>
-								<a href="room" class="nav-item nav-link">Rooms</a>-->
+
+								<a href="about" class="nav-item nav-link"
+									th:classappend="${var == 2 ? 'active' : ''}">About</a>
+								<a href="service" class="nav-item nav-link"
+									th:classappend="${var == 3 ? 'active' : ''}">Services</a>
+								<a href="room" class="nav-item nav-link"
+									th:classappend="${var == 4 ? 'active' : ''}">Rooms</a>
+
+
+
 								<div class="nav-item dropdown">
-									<a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+									<a href="#" class="nav-link dropdown-toggle"
+										th:classappend="${var2 == 567 ? 'active' : ''}"
+										data-bs-toggle="dropdown">Pages</a>
 									<div class="dropdown-menu rounded-0 m-0">
-										<a href="booking" class="dropdown-item">Booking</a>
-										<a href="team" class="dropdown-item">Our Team</a>
-										<a href="testimonial" class="dropdown-item">Testimonial</a>
+										<a href="booking" class="dropdown-item"
+											th:classappend="${var == 5 ? 'active' : ''}">Booking</a>
+										<a href="team" class="dropdown-item"
+											th:classappend="${var == 6 ? 'active' : ''}">Our Team</a>
+										<a href="testimonial" class="dropdown-item"
+											th:classappend="${var == 7 ? 'active' : ''}">Testimonial</a>
 									</div>
 								</div>
-								<a href="contact" class="nav-item nav-link">Contact</a>
+								<div class="nav-item dropdown">
+									<a href="#" class="nav-link dropdown-toggle"
+										th:classappend="${var2 == 890 ? 'active' : ''}"
+										data-bs-toggle="dropdown">Location</a>
+									<div class="dropdown-menu rounded-0 m-0">
+										<a href="contact" class="dropdown-item"
+											th:classappend="${var == 8 ? 'active' : ''}">Location</a>
+										<a href="public" class="dropdown-item"
+											th:classappend="${var == 9 ? 'active' : ''}">Public Transportation</a>
+										<a href="owncar" class="dropdown-item"
+											th:classappend="${var == 10 ? 'active' : ''}">Own Car</a>
+									</div>
+								</div>
+								<a href="nearby" class="nav-item nav-link"
+									th:classappend="${var == 1 ? 'active' : ''}">Nearby</a>
+
+								<a href="notice" class="nav-item nav-link"
+									th:classappend="${var == 1 ? 'active' : ''}">Notice</a>
+
+
+								<a class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Login<i
+										class="fa fa-arrow-right ms-3"></i></a>
+
+
 							</div>
-
-
-
-							<a class="btn btn-primary rounded-0 py-4 px-md-5 d-none d-lg-block">Login<i
-									class="fa fa-arrow-right ms-3"></i></a>
-						</div>
 					</nav>
 				</div>
 			</div>
@@ -133,8 +149,7 @@
 
 
 
-		<div layout:fragment="content">
-			<p>asdlf;jadsofijs</p>
+		<div layout:fragment="content" style="padding-top: 50px; padding-bottom: 50px;">
 		</div>
 
 
@@ -142,19 +157,18 @@
 
 
 		<!-- Footer Start -->
-		<div class="container-fluid bg-dark text-light footer wow fadeIn" data-wow-delay="0.1s">
+		<div class="container-fluid bg-dark text-light wow fadeIn" data-wow-delay="0.1s">
+			<br>
 			<div class="container pb-5">
 				<div class="row g-5">
 					<div class="col-md-6 col-lg-4">
 						<div class="bg-primary rounded p-4">
-							<a href="index.html">
-								<h1 class="text-white text-uppercase mb-3">Hotelier</h1>
+							<a href="index">
+								<h1 class="text-white text-uppercase mb-3">Polysort</h1>
 							</a>
 							<p class="text-white mb-0">
-								Download <a class="text-dark fw-medium"
-									href="https://htmlcodex.com/hotel-html-template-pro">Hotelier – Premium Version</a>,
-								build a professional website for your hotel business and grab the attention of new
-								visitors upon your site’s launch.
+								<a class="text-dark fw-medium">Polysort</a>
+
 							</p>
 						</div>
 					</div>
@@ -236,6 +250,8 @@
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
+
+	</div>
 </body>
 
 </html>
