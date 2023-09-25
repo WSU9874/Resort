@@ -25,7 +25,7 @@ public class ReservationServiceImpl implements Serv.ReservationListService {
 	// Read
 	@Override
 	public Reservation readOneReservation(long id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	

@@ -6,32 +6,55 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import jakarta.servlet.DispatcherType;
-
 
 @Configuration
 public class WebSecurityConfig {
 
-	    @Bean
-	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-	        http.csrf().disable().cors().disable()
-	                .authorizeHttpRequests(request -> request
-	                	.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-	                        .anyRequest().authenticated()	// 어떠한 요청이라도 인증필요
-	                )
-	                .formLogin(login -> login	// form 방식 로그인 사용
-	                        .defaultSuccessUrl("/index", true)	// 성공 시 dashboard로
-	                        .permitAll()	// 대시보드 이동이 막히면 안되므로 얘는 허용
-	                )
-	                .logout(withDefaults());	// 로그아웃은 기본설정으로 (/logout으로 인증해제)
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-	        return http.build();
-	    }
-	
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable().cors().disable()
+				.authorizeHttpRequests(request -> request.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/status")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/bootstrap/**")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/summernote/**")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/join")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/auth/join")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/index")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/service")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/room")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/team")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/testimonial")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/contact")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/nearby")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/notice")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/setting/admin")).hasRole("ADMIN")
+						.requestMatchers(new AntPathRequestMatcher("/setting/user")).hasRole("USER")
+						.anyRequest().authenticated())
+				.formLogin(login -> login.loginPage("/login") // [A] 커스텀 로그인 페이지 지정
+						.loginProcessingUrl("/login-process") // [B] submit 받을 url
+						.usernameParameter("userid") // [C] submit할 아이디
+						.passwordParameter("pw") // [D] submit할 비밀번호
+//						.defaultSuccessUrl("/dashboard", true).permitAll()
+						.defaultSuccessUrl("/index", true).permitAll())
 
+//	                .formLogin(login -> login	// form 방식 로그인 사용
+//                    .defaultSuccessUrl("/dashboard", true)	// 성공 시 dashboard로
+//                    .permitAll()	// 대시보드 이동이 막히면 안되므로 얘는 허용
+//            )
+				.logout(withDefaults());
 
+		return http.build();
+	}
 }
 
 //// 패스워드 인코더로 사용할 빈 등록
@@ -41,7 +64,6 @@ public class WebSecurityConfig {
 //}
 
 // 스프링 시큐리티 기능 비활성화
-
 
 // 특정 HTTP 요청에 대한 웹 기반 보안 구성
 //@Bean
@@ -65,16 +87,3 @@ public class WebSecurityConfig {
 //
 //	 
 //}
-
-//@Bean
-//public DaoAuthenticationProvider daoAuthenticationProvider() throws Exception {
-//	DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-//
-//	daoAuthenticationProvider.setUserDetailsService(userService);
-//	daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
-//
-//	return daoAuthenticationProvider;
-//}
-//
-
-
