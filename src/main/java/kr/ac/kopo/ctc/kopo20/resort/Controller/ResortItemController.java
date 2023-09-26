@@ -139,12 +139,11 @@ public class ResortItemController {
 	public String book(NoticeDTO dto) {
 		Notice no = new Notice();
 		no.setTitle(dto.getTitle());
-		no.setWriter(dto.getWriter());
-
-		System.out.println("getPhoneNum = " + no.getTitle());
+		no.setContent(dto.getContent());
 
 		noSer.create(no);
-		return "booking";
+
+		return "redirect:notice";
 	}
 
 	@GetMapping("/dashboard")

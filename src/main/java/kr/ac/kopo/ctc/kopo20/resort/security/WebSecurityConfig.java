@@ -37,6 +37,7 @@ public class WebSecurityConfig {
 						.requestMatchers(new AntPathRequestMatcher("/contact")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/nearby")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/notice")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/noticeNew")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/setting/admin")).hasRole("ADMIN")
 						.requestMatchers(new AntPathRequestMatcher("/setting/user")).hasRole("USER")
 						.anyRequest().authenticated())

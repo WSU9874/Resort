@@ -24,7 +24,7 @@ public class NoticeRepositoryImpl implements Repo.NoticeRepository {
 	public Notice save(Notice notice) {
 		// TODO Auto-generated method stub
 		em.persist(notice);
-		return null;
+		return notice;
 	}
 
 	@Override
