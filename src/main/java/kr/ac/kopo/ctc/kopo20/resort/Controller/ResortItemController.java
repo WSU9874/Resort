@@ -1,4 +1,4 @@
-package kr.ac.kopo.ctc.kopo20.resort.controller;
+package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
 import java.util.List;
 
