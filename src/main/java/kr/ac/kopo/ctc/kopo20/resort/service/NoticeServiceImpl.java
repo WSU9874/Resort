@@ -31,13 +31,13 @@ public class NoticeServiceImpl implements Serv.NoticeService {
 
 	@Override
 	public Optional<Notice> readOneNotice(long id) {
-
-		return null;
+		Optional<Notice> notice = noticeRepository.findById(id);
+		return notice;
 	}
 
 	@Override
 	public void updateOneNotice(Notice notice) {
-
+		noticeRepository.save(notice);
 
 	}
 
@@ -46,6 +46,7 @@ public class NoticeServiceImpl implements Serv.NoticeService {
 
 		noticeRepository.deleteById(id);
 	}
+
 	@Override
 	public void viewCount(Notice notice) {
 		notice.setViewCount(notice.getViewCount() + 1);

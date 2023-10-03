@@ -1,5 +1,6 @@
 package kr.ac.kopo.ctc.kopo20.resort.domain;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import org.springframework.stereotype.Component;
@@ -30,11 +31,11 @@ public class Notice {
 	@Column
 	private String writer;
 	@Column
-	private String date;
+	private LocalDate date;
 	@Column
 	private String content;
 	@Column
-	private String viewCount;
+	private Long viewCount;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "notice", fetch = FetchType.LAZY)
 	private Collection<NoticeComment> noticeComment;
 

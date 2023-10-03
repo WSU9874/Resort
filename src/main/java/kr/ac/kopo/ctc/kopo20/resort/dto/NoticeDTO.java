@@ -15,6 +15,6 @@ public class NoticeDTO {
 
 	private String content;
 
-	private String viewCount;
+	private Long viewCount;
 
 }

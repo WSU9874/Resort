@@ -1,5 +1,7 @@
 package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 import kr.ac.kopo.ctc.kopo20.resort.dto.NoticeDTO;
@@ -30,7 +35,7 @@ public class ResortItemController {
 	Serv.NoticeService noSer = new NoticeServiceImpl();
 
 	@GetMapping("/index")
-	public String index( Model model) {
+	public String index(Model model) {
 		model.addAttribute("var", 1);
 //		System.out.println(user.isAccountNonExpired());
 		return "index";
@@ -77,12 +82,12 @@ public class ResortItemController {
 		reSer.create(re);
 		return "booking";
 	}
-	
+
 	@GetMapping("/currentReserve")
 	public String currentReserve(Model model) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); 
-		UserDetails userDetails = (UserDetails)principal; 
-		String username = ((User) principal).getUsername(); 
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) principal;
+		String username = ((User) principal).getUsername();
 		String password = ((User) principal).getPassword();
 		System.out.println(username);
 		System.out.println(password);
@@ -108,7 +113,7 @@ public class ResortItemController {
 		model.addAttribute("var", 8);
 		return "contact";
 	}
-	
+
 	@GetMapping("/map")
 	public String map() {
 		return "map";
@@ -136,14 +141,57 @@ public class ResortItemController {
 	}
 
 	@PostMapping("/noticeNew")
-	public String book(NoticeDTO dto) {
+	public String noticeNew(NoticeDTO dto, Model model) {
+		LocalDate now = LocalDate.now();
+		// model.addAttribute("date", now);
+
 		Notice no = new Notice();
 		no.setTitle(dto.getTitle());
 		no.setContent(dto.getContent());
+		no.setDate(now);
+		no.setWriter("admin");
+		no.setViewCount((long) 0);
 
 		noSer.create(no);
 
 		return "redirect:notice";
+	}
+
+	@RequestMapping("/noticeOne")
+	public String findById(Model model, Notice notice, NoticeDTO dto) {
+		Long id = notice.getNoticeId();
+		notice = noSer.readOneNotice(id).orElse(new Notice());
+		model.addAttribute("notice", notice);
+		System.out.println(id);
+		noSer.viewCount(notice);
+//		List<BoardComment> boardCommentlist = boardCommentService.findAllByBoardItem(boardItem);
+//		model.addAttribute("boardCommentlist", boardCommentlist);
+		return "noticeOne";
+	}
+
+	@RequestMapping("/deleteDB")
+	public String delete(Notice notice) throws IOException {
+		noSer.deleteOneNotice(notice.getNoticeId());
+
+		return "notice";
+	}
+
+	@GetMapping("/modify/{id}")
+	public String boardmodify(@PathVariable("id") long id, Model model) {
+		// 상세 페이지 내용이랑 수정할 때 내용이 같이 때문
+		model.addAttribute("notice", noSer.readOneNotice(id).orElse(new Notice()));
+		return "boardmodify";
+	}
+
+	@PostMapping("/update/{id}")
+	public String boardUpdate(@PathVariable("id") long id, Notice notice) {
+		Notice noticeTemp = noSer.readOneNotice(id).orElse(new Notice());
+		noticeTemp.setTitle(notice.getTitle());
+		noticeTemp.setContent(notice.getContent());
+
+		noSer.updateOneNotice(noticeTemp);
+
+		return "redirect:/notice";
 	}
 
 	@GetMapping("/dashboard")
@@ -158,21 +206,20 @@ public class ResortItemController {
 	public String loginPage() {
 		return "login";
 	}
-	
+
 	@GetMapping("/join")
 	public String join() {
 		return "join";
 	}
-	
+
 	@GetMapping("/setting/admin")
 	public String admin() {
 		return "admin_setting";
 	}
-	
+
 	@GetMapping("/setting/user")
 	public String user() {
 		return "user_setting";
 	}
-
 
 }
