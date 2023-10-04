@@ -1,7 +1,6 @@
 package kr.ac.kopo.ctc.kopo20.resort.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -9,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.EntityManager;
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentRequest;
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentResponse;
-import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
-import kr.ac.kopo.ctc.kopo20.resort.domain.NoticeComment;
+
 
 @Repository
 public class NoticeCommentRepositoryImpl implements Repo.NoticeCommentRepository {

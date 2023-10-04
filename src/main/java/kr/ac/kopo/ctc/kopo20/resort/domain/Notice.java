@@ -37,8 +37,8 @@ public class Notice{
 	private String content;
 	@Column
 	private Long viewCount;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "notice", fetch = FetchType.LAZY)
-	@OrderBy("noticeId")
-	private Set<NoticeComment> noticeComment = new LinkedHashSet<>();
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "notice", fetch = FetchType.LAZY)
+//	@OrderBy("noticeId")
+//	private Set<NoticeComment> noticeComment = new LinkedHashSet<>();
 
 }

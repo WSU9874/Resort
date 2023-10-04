@@ -6,7 +6,6 @@ import java.util.Optional;
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentRequest;
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentResponse;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
-import kr.ac.kopo.ctc.kopo20.resort.domain.NoticeComment;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 
 public interface Serv {

@@ -3,15 +3,9 @@ package kr.ac.kopo.ctc.kopo20.resort.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentRequest;
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentResponse;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
-import kr.ac.kopo.ctc.kopo20.resort.domain.NoticeComment;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 
 public interface Repo {
