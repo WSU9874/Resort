@@ -42,9 +42,9 @@ public class NoticeServiceImpl implements Serv.NoticeService {
 	}
 
 	@Override
-	public void deleteOneNotice(long id) {
+	public void deleteOneNotice(Notice notice,Long id) {
 
-		noticeRepository.deleteById(id);
+		noticeRepository.deleteById(notice,id);
 	}
 
 	@Override

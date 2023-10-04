@@ -5,15 +5,17 @@ import lombok.Data;
 @Data
 public class NoticeCommentDTO {
 	private Long commentId;
-
-	private String title;
+	
+	private Long noticeId;
+	
+	private String content;
 
 	private String writer;
 
-	private String date;
 
-	private String content;
 
-	private String viewCount;
+
+
+
 
 }

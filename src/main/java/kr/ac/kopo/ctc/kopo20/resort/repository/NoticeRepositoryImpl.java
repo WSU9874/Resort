@@ -35,16 +35,23 @@ public class NoticeRepositoryImpl implements Repo.NoticeRepository {
 	}
 
 	@Override
-	public List<Notice> findAll() { // JPQL
-		List<Notice> notice = em.createQuery("select n from Notice n").getResultList();
-
+	public List<Notice> findAll() {
+		List<Notice> notice = em.createQuery("SELECT n FROM Notice n ORDER BY n.noticeId DESC", Notice.class)
+				.getResultList();
 		return notice;
 	}
 
+//	@Override
+//	public Notice deleteById(Long id) {
+//		List<Notice> notice = em.createQuery("delete n from notice n where n.id = :id", Notice.class).getResultList(); // JPQL
+//		return null;
+//	}
+
 	@Override
-	public Notice deleteById(Long id) {
-		List<Notice> notice = em.createQuery("delete n from notice n where n.id = :id", Notice.class).getResultList(); // JPQL
-		return null;
+	public void deleteById(Notice notice, Long id) {
+		notice = em.find(Notice.class, id);
+		em.remove(notice);
+
 	}
 
 	@Override
@@ -53,7 +60,5 @@ public class NoticeRepositoryImpl implements Repo.NoticeRepository {
 				.setParameter("writer", writer).getResultList();
 		return result.stream().findAny();
 	}
-	
-	
 
 }

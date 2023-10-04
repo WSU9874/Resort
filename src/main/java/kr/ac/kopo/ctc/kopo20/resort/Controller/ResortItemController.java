@@ -14,13 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import jakarta.servlet.http.HttpServletResponse;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 import kr.ac.kopo.ctc.kopo20.resort.dto.NoticeDTO;
 import kr.ac.kopo.ctc.kopo20.resort.dto.ReserveDTO;
+import kr.ac.kopo.ctc.kopo20.resort.service.NoticeCommentServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.ReservationServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.Serv;
@@ -33,6 +32,9 @@ public class ResortItemController {
 
 	@Autowired
 	Serv.NoticeService noSer = new NoticeServiceImpl();
+	
+	@Autowired
+	Serv.NoticeCommentService noCSer = new NoticeCommentServiceImpl();
 
 	@GetMapping("/index")
 	public String index(Model model) {
@@ -157,7 +159,7 @@ public class ResortItemController {
 		return "redirect:notice";
 	}
 
-	@RequestMapping("/noticeOne")
+	@GetMapping("/noticeOne")
 	public String findById(Model model, Notice notice, NoticeDTO dto) {
 		Long id = notice.getNoticeId();
 		notice = noSer.readOneNotice(id).orElse(new Notice());
@@ -169,30 +171,47 @@ public class ResortItemController {
 		return "noticeOne";
 	}
 
-	@RequestMapping("/deleteDB")
-	public String delete(Notice notice) throws IOException {
-		noSer.deleteOneNotice(notice.getNoticeId());
+	@GetMapping("/deleteDB")
+	public String delete(Notice notice, Long noticeId) throws IOException {
+		
+		noSer.deleteOneNotice(notice, noticeId);
 
-		return "notice";
+		return "redirect:notice";
 	}
 
-	@GetMapping("/modify/{id}")
-	public String boardmodify(@PathVariable("id") long id, Model model) {
+	@PostMapping("/modify/{noticeId}")
+	public String boardmodify(@PathVariable("noticeId") long noticeId, Model model) {
 		// 상세 페이지 내용이랑 수정할 때 내용이 같이 때문
-		model.addAttribute("notice", noSer.readOneNotice(id).orElse(new Notice()));
-		return "boardmodify";
+		model.addAttribute("notice", noSer.readOneNotice(noticeId).orElse(new Notice()));
+		return "modify";
 	}
 
-	@PostMapping("/update/{id}")
-	public String boardUpdate(@PathVariable("id") long id, Notice notice) {
-		Notice noticeTemp = noSer.readOneNotice(id).orElse(new Notice());
+	@PostMapping("/update/{noticeId}")
+	public String boardUpdate(@PathVariable("noticeId") long noticeId, Notice notice) {
+		Notice noticeTemp = noSer.readOneNotice(noticeId).orElse(new Notice());
 		noticeTemp.setTitle(notice.getTitle());
 		noticeTemp.setContent(notice.getContent());
 
 		noSer.updateOneNotice(noticeTemp);
 
-		return "redirect:/notice";
+		return "redirect:/noticeOne?noticeId={noticeId}";
 	}
+	
+//	@PostMapping("/comment")
+//	public void comment(Long noticeId,Notice notice,Model model, NoticeComment noticeComment, HttpServletResponse rep, HttpServletRequest req) throws IOException {
+//		LocalDate now = LocalDate.now();
+//		Notice notice1 = noSer.readOneNotice(notice.getNoticeId()).orElse(notice);
+//		model.addAttribute("notice", notice1);
+//		model.addAttribute("date", now);
+//		model.addAttribute("noticeId",noticeId);
+//		
+//		Long root_id = Long.parseLong(req.getParameter("root_id"));
+//		notice = noSer.readOneNotice(root_id).orElse(new Notice());
+//		noticeComment.setNotice(notice);
+//
+//		noCSer.saveComment(noticeComment);
+//		rep.sendRedirect("redirect:/noticeOne?noticeId={noticeId}");
+//	}
 
 	@GetMapping("/dashboard")
 	public String dashboard(@AuthenticationPrincipal UserDetails user, Model model) {

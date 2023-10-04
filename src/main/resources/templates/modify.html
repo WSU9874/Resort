@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
+<div layout:fragment="content">
+
+	<head>
+		<meta charset="UTF-8">
+		<br /><br />
+		<title>게시판</title>
+		<style>
+			table {
+				border-collapse: collapse;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form th:action="@{/update/{noticeId}(noticeId=${notice.noticeId})}" method="post">
+			<center>
+				<h3>게시판</h3>
+				<table border="1">
+					<tr>
+						<td style="width: 100px; text-align:center;">번호</th>
+						<td colspan='3' style="width: 700px;" th:text="${notice.noticeId}">
+							<input type="hidden" name="noticeId" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 100px; text-align:center;">제목</th>
+						<td colspan='3' style="width: 700px;">
+							<input type="text" name="title" th:value="${notice.title}" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 100px; text-align:center;">내용</td>
+						<td colspan='3' style="width: 700px; height : 500px">
+							<textarea name="content" style="width: 690px; height : 490px"
+								th:text="${notice.content}"></textarea>
+						</td>
+					</tr>
+					<!--         <tr>
+            <td style="width: 100px; text-align:center;">등록일</td>
+			<td style="width: 300px;" th:text="${notice.date}">
+			<input type="hidden" name="date" th:value="${notice.date}"></td>
+			<td style="width: 100px; text-align:center;">조회수</td>
+			<td style="width: 300px;" th:text="${notice.viewCount}">
+			<input type="hidden" name="viewcnt" th:value="${notice.viewCount}"></td>
+         </tr>-->
+				</table>
+				<br />
+
+				<button type="submit">변경</button></a>
+
+				<br /><br />
+
+			</center>
+
+	</body>
+</div>
+
+</html>
