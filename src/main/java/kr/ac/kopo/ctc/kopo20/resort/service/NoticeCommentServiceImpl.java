@@ -36,12 +36,17 @@ public class NoticeCommentServiceImpl implements Serv.NoticeCommentService {
 
 	@Override
 	public Long updateComment(NoticeComment params) {
-		cRepo.update(params);
+		NoticeComment nc = cRepo.findById(params.getCommentId());
+		nc.setContent(params.getContent());
+		nc.setWriter(params.getWriter());
+		
+		cRepo.save(nc);
 		return params.getCommentId();
 	}
 
 	@Override
 	public Long deleteComment(Long commentId) {
+		NoticeComment nc = cRepo.findById(commentId);
 		cRepo.deleteById(commentId);
 		return commentId;
 	}

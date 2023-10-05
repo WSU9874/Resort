@@ -29,6 +29,8 @@ public class WebSecurityConfig {
 						.requestMatchers(new AntPathRequestMatcher("/status")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/bootstrap/**")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/summernote/**")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/join")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/auth/join")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/index")).permitAll()

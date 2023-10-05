@@ -58,7 +58,7 @@ public interface Serv {
 		public Long updateComment(final NoticeComment params);
 
 		// Delete
-		public Long deleteComment(final Long commentId);
+		public Long deleteComment(Long commentId);
 		
 		
 	}

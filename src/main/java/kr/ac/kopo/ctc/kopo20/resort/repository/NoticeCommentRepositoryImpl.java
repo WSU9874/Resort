@@ -39,29 +39,14 @@ public class NoticeCommentRepositoryImpl implements Repo.NoticeCommentRepository
 
 	@Override
 	public void update(NoticeComment params) {
-	    // 네이티브 SQL 쿼리 실행
-	    String sqlQuery = "INSERT INTO tb_comment (commentId, noticeId, content, writer, deleteYn, createdDate, updatedDate) " +
-	                      "VALUES (:id, :postId, :content, :writer, 0, CURRENT_TIMESTAMP, NULL)";
-	    Query query = em.createNativeQuery(sqlQuery);
-	    query.setParameter("id", params.getCommentId());
-	    query.setParameter("postId", params.getNoticeId());
-	    query.setParameter("content", params.getContent());
-	    query.setParameter("writer", params.getWriter());
-
-	    // 트랜잭션 시작
-	    em.getTransaction().begin();
-
-	    // 쿼리 실행
-	    query.executeUpdate();
-
-	    // 트랜잭션 커밋
-	    em.getTransaction().commit();
+		
 	}
 
 
 	@Override
 	public void deleteById(Long commentId) {
-		em.remove(commentId);
+		NoticeComment params=em.find(NoticeComment.class, commentId);
+		em.remove(params);
 	}
 
 //	@Override

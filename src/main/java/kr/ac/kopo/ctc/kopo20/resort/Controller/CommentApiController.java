@@ -3,6 +3,7 @@ package kr.ac.kopo.ctc.kopo20.resort.Controller;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,8 +51,15 @@ public class CommentApiController {
     // 기존 댓글 수정
     @PatchMapping("/posts/{noticeId}/comments/{commentId}")
     public NoticeComment updateComment(@PathVariable final Long noticeId, @PathVariable final Long commentId, @RequestBody final NoticeComment params) {
-        commentService.updateComment(params);
+    	
+    	commentService.updateComment(params);
         return commentService.findCommentById(commentId);
+    }
+    
+ // 댓글 삭제
+    @DeleteMapping("/posts/{noticeId}/comments/{commentId}")
+    public Long deleteComment(@PathVariable final Long noticeId, @PathVariable final Long commentId) {
+        return commentService.deleteComment(commentId);
     }
 
 }
