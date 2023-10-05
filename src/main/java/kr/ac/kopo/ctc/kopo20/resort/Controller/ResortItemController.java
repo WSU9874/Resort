@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
@@ -160,11 +161,12 @@ public class ResortItemController {
 	}
 
 	@GetMapping("/noticeOne")
-	public String findById(Model model, Notice notice, NoticeDTO dto) {
-		Long id = notice.getNoticeId();
-		notice = noSer.readOneNotice(id).orElse(new Notice());
+	public String findById(Model model, @RequestParam("noticeId") Long noticeId, Notice notice, NoticeDTO dto) {
+//		Long id = notice.getNoticeId();
+		notice = noSer.readOneNotice(noticeId).orElse(new Notice());
 		model.addAttribute("notice", notice);
-		System.out.println(id);
+		model.addAttribute("noticeId", noticeId);
+		System.out.println(noticeId);
 		noSer.viewCount(notice);
 //		List<BoardComment> boardCommentlist = boardCommentService.findAllByBoardItem(boardItem);
 //		model.addAttribute("boardCommentlist", boardCommentlist);

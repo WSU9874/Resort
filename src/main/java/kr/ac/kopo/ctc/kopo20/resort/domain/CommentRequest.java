@@ -1,5 +1,6 @@
 package kr.ac.kopo.ctc.kopo20.resort.domain;
 
+import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

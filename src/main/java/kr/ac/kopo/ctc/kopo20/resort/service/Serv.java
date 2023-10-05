@@ -6,6 +6,7 @@ import java.util.Optional;
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentRequest;
 import kr.ac.kopo.ctc.kopo20.resort.domain.CommentResponse;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
+import kr.ac.kopo.ctc.kopo20.resort.domain.NoticeComment;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 
 public interface Serv {
@@ -46,15 +47,15 @@ public interface Serv {
 	
 	interface NoticeCommentService {
 		// Create
-		Long saveComment(final CommentRequest params);
+		Long saveComment(final NoticeComment params);
 
 		// Read
-		public CommentResponse findCommentById(final Long commentId);
+		public NoticeComment findCommentById(final Long commentId);
 
-		public List<CommentResponse> findAllComment(final Long noticeId);
+		public List<NoticeComment> findAllComment(final Long noticeId);
 
 		// Update
-		public Long updateComment(final CommentRequest params);
+		public Long updateComment(final NoticeComment params);
 
 		// Delete
 		public Long deleteComment(final Long commentId);

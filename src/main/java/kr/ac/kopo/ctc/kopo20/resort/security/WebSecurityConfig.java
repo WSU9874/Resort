@@ -4,7 +4,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer.AuthorizedUrl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -37,10 +39,8 @@ public class WebSecurityConfig {
 						.requestMatchers(new AntPathRequestMatcher("/contact")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/nearby")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/notice")).permitAll()
-						.requestMatchers(new AntPathRequestMatcher("/noticeNew")).permitAll()
-						.requestMatchers(new AntPathRequestMatcher("/setting/admin")).hasRole("ADMIN")
-						.requestMatchers(new AntPathRequestMatcher("/setting/user")).hasRole("USER")
-						.anyRequest().authenticated())
+						.requestMatchers(new AntPathRequestMatcher("/setting/user")).hasRole("USER")		
+                        .anyRequest().authenticated())
 				.formLogin(login -> login.loginPage("/login") // [A] 커스텀 로그인 페이지 지정
 						.loginProcessingUrl("/login-process") // [B] submit 받을 url
 						.usernameParameter("userid") // [C] submit할 아이디
@@ -57,7 +57,6 @@ public class WebSecurityConfig {
 		return http.build();
 	}
 }
-
 //// 패스워드 인코더로 사용할 빈 등록
 //@Bean
 //public BCryptPasswordEncoder bCryptPasswordEncoder() {
