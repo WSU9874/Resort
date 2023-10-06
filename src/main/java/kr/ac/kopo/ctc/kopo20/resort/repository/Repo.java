@@ -40,52 +40,31 @@ public interface Repo {
 
 	interface NoticeCommentRepository {
 
-		/**
-		 * 댓글 저장
-		 * 
-		 * @param params - 댓글 정보
-		 */
+		//댓글 저장
+
 		void save(NoticeComment params);
 
-		/**
-		 * 댓글 상세정보 조회
-		 * 
-		 * @param id - PK
-		 * @return 댓글 상세정보
-		 */
+		//댓글 상세정보 조회
+
 		NoticeComment findById(Long commentId);
 
-		/**
-		 * 댓글 수정
-		 * 
-		 * @param params - 댓글 정보
-		 */
+		//댓글 수정
+
 		void update(NoticeComment params);
 
-		/**
-		 * 댓글 삭제
-		 * 
-		 * @param id - PK
-		 */
+		//댓글 삭제
+
 		void deleteById(Long commentId);
 
-		/**
-		 * 댓글 리스트 조회
-		 * 
-		 * @param postId - 게시글 번호 (FK)
-		 * @return 댓글 리스트
-		 */
+		//댓글 리스트 조회
+
 		List<NoticeComment> findAll(Long noticeId);
 		
-//		@Query("SELECT c FROM Comment c WHERE c.deleteYn = false AND c.postId = :postId ORDER BY c.id DESC")
-//	    List<CommentResponse> findAll(@Param("postId") Long noticeId);
 
-		/**
-		 * 댓글 수 카운팅
-		 * 
-		 * @param postId - 게시글 번호 (FK)
-		 * @return 댓글 수
-		 */
+
+
+//		 댓글 수 카운팅
+
 		int count(Long noticeId);
 
 	}

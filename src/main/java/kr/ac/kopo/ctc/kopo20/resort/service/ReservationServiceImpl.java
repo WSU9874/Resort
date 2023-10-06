@@ -45,5 +45,11 @@ public class ReservationServiceImpl implements Serv.ReservationListService {
 	public void deleteOneReservation(long id) {
 		reserveRepository.deleteById(id);
 	}
+	
+	@Override
+	public List<Reservation> getReservationsFor30Days() {
+		List<Reservation> result = reserveRepository.findAll();
+		return result;
+	}
 
 }

@@ -1,5 +1,8 @@
 package kr.ac.kopo.ctc.kopo20.resort.domain;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
@@ -36,5 +39,9 @@ public class Reservation {
 	private String phoneNum;
 	@Column
 	private String request;
+	@Column
+	private String reservationDate;
 
 }
+
+

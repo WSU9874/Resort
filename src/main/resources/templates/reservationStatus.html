@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
+<div layout:fragment="content">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>예약 현황</title>
+
+		<style>
+			table {
+				width: 100%;
+				border: 1px solid #444444;
+				border-collapse: collapse;
+			}
+
+			th,
+			td {
+				border: 1px solid #444444;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div class="container" style="text-align:center; margin-top:25px;">
+			<h3 style="margin-bottom:25px;">예약 현황</h3>
+
+			<table style="margin-left:auto;margin-right:auto;width: 800px;margin-bottom: 10%;margin-top:1%">
+				<thead>
+					<tr style="text-align: center;">
+						<th>예약 일자</th>
+						<th>VIP 객실</th>
+						<th>고급 객실</th>
+						<th>일반 객실</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="roomStatus : ${reservations}" style="text-align: center;">
+						<td th:text="${roomStatus.reservationDate}"></td>
+						<td style="text-align: center;">
+							<span th:if="${roomStatus.room1Status} != '0'" th:text="${roomStatus.room1Status}"></span>
+							<span th:unless="${roomStatus.room1Status} != '0'">
+								<a
+									th:href="@{'/reserveClick?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=1'}">예약
+									가능</a>
+							</span>
+						</td>
+						<td style="text-align: center;">
+							<span th:if="${roomStatus.room2Status} != '0'" th:text="${roomStatus.room2Status}"></span>
+							<span th:unless="${roomStatus.room2Status} != '0'">
+								<a
+									th:href="@{'/reserveClick?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=2'}">예약
+									가능</a>
+							</span>
+						</td>
+						<td style="text-align: center;">
+							<span th:if="${roomStatus.room3Status} != '0'" th:text="${roomStatus.room3Status}"></span>
+							<span th:unless="${roomStatus.room3Status} != '0'">
+								<a
+									th:href="@{'/reserveClick?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=3'}">예약
+									가능</a>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</body>
+
+</html>

@@ -36,8 +36,8 @@ public class ReserveRepositoryImpl implements Repo.ReserveRepository {
 
 	@Override
 	public List<Reservation> findAll() {
-		List<Reservation> result = em.createQuery("select r from reservation r", Reservation.class).getResultList(); //JPQL
-		return null;
+		List<Reservation> result = em.createQuery("select r from Reservation r", Reservation.class).getResultList(); //JPQL
+		return result;
 	}
 
 	@Override

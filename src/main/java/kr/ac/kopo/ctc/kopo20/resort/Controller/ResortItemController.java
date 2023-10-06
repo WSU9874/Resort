@@ -2,6 +2,7 @@ package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
+import kr.ac.kopo.ctc.kopo20.resort.domain.RoomStatus;
 import kr.ac.kopo.ctc.kopo20.resort.dto.NoticeDTO;
 import kr.ac.kopo.ctc.kopo20.resort.dto.ReserveDTO;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeCommentServiceImpl;
@@ -33,7 +35,7 @@ public class ResortItemController {
 
 	@Autowired
 	Serv.NoticeService noSer = new NoticeServiceImpl();
-	
+
 	@Autowired
 	Serv.NoticeCommentService noCSer = new NoticeCommentServiceImpl();
 
@@ -71,16 +73,26 @@ public class ResortItemController {
 
 	@PostMapping("/booking")
 	public String book(ReserveDTO dto) {
+		LocalDate now = LocalDate.now();
 		Reservation re = new Reservation();
 		re.setRoomId(dto.getRoomId());
 		re.setName(dto.getName());
 		re.setEmail(dto.getEmail());
 		re.setCheckIn(dto.getCheckIn());
 		re.setCheckOut(dto.getCheckOut());
+		re.setChildCount(dto.getChildCount());
 		re.setAdultCount(dto.getAdultCount());
 		re.setPhoneNum(dto.getPhoneNum());
 		re.setRequest(dto.getRequest());
-		System.out.println("getPhoneNum = " + re.getPhoneNum());
+		
+//		if(dto.getRoomId()==1) {
+//			re.setRoom1Status(1);
+//		} else if(dto.getRoomId()==2) {
+//			re.setRoom2Status(1);
+//		} else if(dto.getRoomId()==3) {
+//			re.setRoom3Status(1);
+//		}
+		re.setReservationDate(now.toString());
 
 		reSer.create(re);
 		return "booking";
@@ -96,6 +108,72 @@ public class ResortItemController {
 		System.out.println(password);
 		return "currentReserve";
 	}
+
+//	@GetMapping("/reservationStatus")
+//	public String reservationStatus(Model model) {
+//		// 예약 현황 데이터베이스에서 데이터를 가져옵니다. (예시로 데이터를 가져오는 코드입니다.)
+//		List<Reservation> reservations = reSer.getReservationsFor30Days();
+//		model.addAttribute("reservations", reservations);
+//		return "reservationStatus";
+//	}
+	
+	@GetMapping("/reservationStatus")
+	public String requestReservationList(Model model) {
+		LocalDate today = LocalDate.now();
+		List<Reservation> listofReservation = reSer.readAllReservation();
+		List<RoomStatus> roomStatusList = new ArrayList<RoomStatus>();
+//		for (Reservation reservation : listofReservation) {
+//            System.out.println(reservation);
+//            System.out.println(reservation.getRoomId());
+//        }
+		for (int i = 0; i < 31; i++) {
+			RoomStatus roomStatus = new RoomStatus("0", "0", "0");
+			roomStatus.setReservationDate(today.plusDays(i).toString());
+			
+			roomStatusList.add(roomStatus);
+		}
+		
+		for (RoomStatus roomStatus : roomStatusList) {
+			for (Reservation reservation : listofReservation) {
+//				System.out.println(reservation.getRoomId());
+//				System.out.println(reservation.getReservationDate());
+				if (roomStatus.getReservationDate().equals(reservation.getReservationDate())) {
+//					System.out.println(reservation.getRoomId());
+					if(reservation.getRoomId() == 1) {
+						roomStatus.setRoom1Status(reservation.getName());
+					} else if (reservation.getRoomId() == 2) {
+						roomStatus.setRoom2Status(reservation.getName());
+					} else if (reservation.getRoomId() == 3) {
+						roomStatus.setRoom3Status(reservation.getName());
+						
+					}
+					
+				}
+			}
+			
+		}
+		for (RoomStatus reservation : roomStatusList) {
+            System.out.println(reservation);
+//            System.out.println(reservation.getRoomId());
+        }
+		
+		model.addAttribute("reservations", roomStatusList);
+		
+		return "reservationStatus";
+	}
+	
+	@GetMapping("/reserveClick")
+	public String click(Model model, @RequestParam("reservationDate") String reservationDate,@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto) {
+
+		model.addAttribute("reservationDate", reservationDate);
+		model.addAttribute("roomId", roomId);
+
+
+
+		return "reserveClick";
+	}
+	
+	
 
 	@GetMapping("/team")
 	public String team(Model model) {
@@ -175,7 +253,7 @@ public class ResortItemController {
 
 	@GetMapping("/deleteDB")
 	public String delete(Notice notice, Long noticeId) throws IOException {
-		
+
 		noSer.deleteOneNotice(notice, noticeId);
 
 		return "redirect:notice";
@@ -198,7 +276,7 @@ public class ResortItemController {
 
 		return "redirect:/noticeOne?noticeId={noticeId}";
 	}
-	
+
 //	@PostMapping("/comment")
 //	public void comment(Long noticeId,Notice notice,Model model, NoticeComment noticeComment, HttpServletResponse rep, HttpServletRequest req) throws IOException {
 //		LocalDate now = LocalDate.now();
