@@ -14,10 +14,6 @@ public class ReserveDTO {
 
 	private String email;
 
-	private String checkIn;
-
-	private String checkOut;
-
 	private Long adultCount;
 
 	private Long childCount;
@@ -25,4 +21,6 @@ public class ReserveDTO {
 	private String phoneNum;
 	
 	private String request;
+	
+	private String reservationDate;
 }

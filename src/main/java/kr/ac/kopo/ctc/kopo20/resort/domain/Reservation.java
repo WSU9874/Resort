@@ -28,10 +28,6 @@ public class Reservation {
 	@Column
 	private String email;
 	@Column
-	private String checkIn;
-	@Column
-	private String checkOut;
-	@Column
 	private Long adultCount;
 	@Column
 	private Long childCount;

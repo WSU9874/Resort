@@ -1,11 +1,13 @@
 package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -17,13 +19,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.ac.kopo.ctc.kopo20.resort.domain.Member;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 import kr.ac.kopo.ctc.kopo20.resort.domain.RoomStatus;
 import kr.ac.kopo.ctc.kopo20.resort.dto.NoticeDTO;
 import kr.ac.kopo.ctc.kopo20.resort.dto.ReserveDTO;
+import kr.ac.kopo.ctc.kopo20.resort.service.MemberService;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeCommentServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeServiceImpl;
+import kr.ac.kopo.ctc.kopo20.resort.service.PageService;
 import kr.ac.kopo.ctc.kopo20.resort.service.ReservationServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.Serv;
 
@@ -38,6 +43,12 @@ public class ResortItemController {
 
 	@Autowired
 	Serv.NoticeCommentService noCSer = new NoticeCommentServiceImpl();
+	
+	@Autowired
+	PageService pSer = new PageService();
+
+	@Autowired
+	MemberService mser = new MemberService();
 
 	@GetMapping("/index")
 	public String index(Model model) {
@@ -78,13 +89,11 @@ public class ResortItemController {
 		re.setRoomId(dto.getRoomId());
 		re.setName(dto.getName());
 		re.setEmail(dto.getEmail());
-		re.setCheckIn(dto.getCheckIn());
-		re.setCheckOut(dto.getCheckOut());
 		re.setChildCount(dto.getChildCount());
 		re.setAdultCount(dto.getAdultCount());
 		re.setPhoneNum(dto.getPhoneNum());
 		re.setRequest(dto.getRequest());
-		
+
 //		if(dto.getRoomId()==1) {
 //			re.setRoom1Status(1);
 //		} else if(dto.getRoomId()==2) {
@@ -116,7 +125,7 @@ public class ResortItemController {
 //		model.addAttribute("reservations", reservations);
 //		return "reservationStatus";
 //	}
-	
+
 	@GetMapping("/reservationStatus")
 	public String requestReservationList(Model model) {
 		LocalDate today = LocalDate.now();
@@ -129,51 +138,72 @@ public class ResortItemController {
 		for (int i = 0; i < 31; i++) {
 			RoomStatus roomStatus = new RoomStatus("0", "0", "0");
 			roomStatus.setReservationDate(today.plusDays(i).toString());
-			
+
 			roomStatusList.add(roomStatus);
 		}
-		
+
 		for (RoomStatus roomStatus : roomStatusList) {
 			for (Reservation reservation : listofReservation) {
 //				System.out.println(reservation.getRoomId());
 //				System.out.println(reservation.getReservationDate());
 				if (roomStatus.getReservationDate().equals(reservation.getReservationDate())) {
 //					System.out.println(reservation.getRoomId());
-					if(reservation.getRoomId() == 1) {
+					if (reservation.getRoomId() == 1) {
 						roomStatus.setRoom1Status(reservation.getName());
 					} else if (reservation.getRoomId() == 2) {
 						roomStatus.setRoom2Status(reservation.getName());
 					} else if (reservation.getRoomId() == 3) {
 						roomStatus.setRoom3Status(reservation.getName());
-						
+
 					}
-					
+
 				}
 			}
-			
+
 		}
 		for (RoomStatus reservation : roomStatusList) {
-            System.out.println(reservation);
+			System.out.println(reservation);
 //            System.out.println(reservation.getRoomId());
-        }
-		
+		}
+
 		model.addAttribute("reservations", roomStatusList);
-		
+
 		return "reservationStatus";
 	}
-	
+
 	@GetMapping("/reserveClick")
-	public String click(Model model, @RequestParam("reservationDate") String reservationDate,@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto) {
+	public String click(Model model, @RequestParam("reservationDate") String reservationDate,@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto, Principal principal) {
 
 		model.addAttribute("reservationDate", reservationDate);
 		model.addAttribute("roomId", roomId);
 
-
+		String userid=principal.getName();
+        Member member=mser.findOne(userid).orElse(new Member());
+        model.addAttribute("user", member);
 
 		return "reserveClick";
 	}
 	
-	
+	@PostMapping("/reserveClick")
+	public String click(ReserveDTO dto, Model model) {
+//		LocalDate now = LocalDate.now();
+		Reservation re = new Reservation();
+
+		re.setRoomId(dto.getRoomId());
+		re.setName(dto.getName());
+		re.setEmail(dto.getEmail());
+		re.setChildCount(dto.getChildCount());
+		re.setAdultCount(dto.getAdultCount());
+		re.setPhoneNum(dto.getPhoneNum());
+		re.setRequest(dto.getRequest());
+		re.setReservationDate(dto.getReservationDate());
+
+
+//		re.setReservationDate(now.toString());
+
+		reSer.create(re);
+		return "reserveClick";
+	}
 
 	@GetMapping("/team")
 	public String team(Model model) {
@@ -207,9 +237,10 @@ public class ResortItemController {
 	}
 
 	@GetMapping("/notice")
-	public String notice(Model model) {
+	public String notice(Model model, @RequestParam(value="page", defaultValue="0") int page) {
 		List<Notice> no = noSer.readAllNotice();
-		model.addAttribute("var", 8);
+		Page<Notice> paging = this.pSer.getList(page);
+        model.addAttribute("paging", paging);
 		model.addAttribute("notice", no);
 
 		return "notice";

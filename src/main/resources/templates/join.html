@@ -10,6 +10,30 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 	<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<style>
+		#overlappedID {
+			background-color: GhostWhite;
+			width: 30%;
+			height: 30px;
+		}
+
+		#overlappedNick {
+			background-color: GhostWhite;
+			width: 30%;
+			height: 30px;
+		}
+
+		.olmessagef {
+			color: red;
+			font-style: Italic;
+		}
+
+		.olmessaget {
+			color: blue;
+			font-style: Italic;
+		}
+	</style>
 </head>
 
 <body>
@@ -21,17 +45,43 @@
 			<h2 class='form-signin-heading text-center mb-5'>회원가입!</h2>
 
 			<p>
-				<label for='username' class='sr-only'>아이디</label>
-				<input type='text' id='username' name='userid' class='form-control' placeholder='아이디' required
+				<input type="text" id="userid" name="userid" placeholder="아이디" minlength="4" maxlength="15" required
 					autofocus>
+				<button id="overlappedID" type="button">중복확인</button><br>
+				<span id="olmessage"></span>
 			</p>
 
 			<p>
 				<label for='password' class='sr-only'>비밀번호 </label>
-				<input type='password' id='password' name="pw" class="form-control" placeholder="비밀번호 " required>
+				<input type='password' id='pw' name="pw" class="form-control" placeholder="비밀번호 " required>
+			</p>
+			<p>
+				<label for='password' class='sr-only'>비밀번호 확인 </label>
+				<input type='password' id='pw2' name="pw2" class="form-control" placeholder="비밀번호 확인 " required>
+				<span id="olmessage2"></span>
 			</p>
 
-			<button type="submit" class="btn btn-lg btn-primary btn-block">회원가입 </button>
+			<p>
+				<label for='email' class='sr-only'>이메일 </label>
+				<input type='email' id='email' name="email" class="form-control" placeholder="이메일 " required>
+			</p>
+			<p>
+				<input type="text" id="nickname" name="nickname" placeholder="닉네임" required
+					oninput="checkNick()">
+				<span class="id_ok">사용 가능한 닉네임입니다.</span>
+				<span class="id_already">누군가 이 닉네임를 사용하고 있어요.</span>
+			</p>
+			<p>
+				<label for='phone' class='sr-only'>휴대폰번호 </label>
+				<input type='tel' id='phone' name="phone" class="form-control" placeholder="휴대폰번호 " required>
+			</p>
+			<p>
+				<label for='address' class='sr-only'>주소 </label>
+				<input type='text' id='address' name="address" class="form-control" placeholder="주소 " required>
+			</p>
+
+
+			<button type="button" class="btn btn-lg btn-primary btn-block" id="signup">회원가입 </button>
 		</form>
 	</div>
 
@@ -62,6 +112,74 @@
 				})
 				.catch(error => console.log(error))
 		});
+
+		//아이디 중복 체크
+
+		$("#overlappedID").click(function () {
+			$("#signup").attr("type", "button");
+
+			const userid = $("#userid").val();
+			$.ajax({
+				type: "get",
+				contentType: 'application/json',
+				async: false,
+				url: "http://localhost:8082/auth/idCheck",
+				data: {userid: userid},
+
+				success: function (result) {
+					if (result == true) {
+						$("#olmessage").text("이미 사용중인 ID 입니다.");
+						$("#olmessage").addClass("olmessagef");
+						$("#olmessage").removeClass("olmessaget");
+					} else {
+						$("#olmessage").text("사용 가능한 ID 입니다.");
+						$("#olmessage").addClass("olmessaget");
+						$("#olmessage").removeClass("olmessagef");
+						$("#signup").attr("type", "submit");
+					}
+				}
+			})
+		});
+
+		$(function () {
+
+			//비밀번호 확인
+			$('#pw2').blur(function () {
+				if ($('#pw').val() != $('#pw2').val()) {
+					if ($('#pw2').val() != '') {
+						$("#olmessage2").html("<font color='#70AD47'>패스워드 확인이 일치 하지 않습니다.</font>");
+						$('#pw2').val('');
+						$('#pw2').focus();
+					}
+				} else {
+					$("#olmessage2").html("<font color='#70AD47'>패스워드 확인이 일치 합니다.</font>");
+				}
+			})
+		});
+		//닉네임 중복체크
+		function checkNick() {
+			const nickname = $('#nickname').val(); //id값이 "id"인 입력란의 값을 저장
+			$.ajax({
+				url: "http://localhost:8082/auth/nickCheck", //Controller에서 요청 받을 주소
+				type: 'get', 
+				data: {nickname: nickname},
+				success: function (result) { //컨트롤러에서 넘어온 cnt값을 받는다 
+					if (result == false) { //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
+						$('.id_ok').css("display", "inline-block");
+						$('.id_already').css("display", "none");
+					} else { // cnt가 1일 경우 -> 이미 존재하는 아이디
+						$('.id_already').css("display", "inline-block");
+						$('.id_ok').css("display", "none");
+//						alert("닉네임을 다시 입력해주세요");
+//						$('#nickName').val('');
+					}
+				},
+				error: function () {
+					alert("에러입니다");
+				}
+			});
+		};
+
 	</script>
 
 </body>

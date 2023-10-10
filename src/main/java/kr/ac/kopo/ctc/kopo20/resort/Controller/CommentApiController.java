@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.ac.kopo.ctc.kopo20.resort.domain.CommentResponse;
 import kr.ac.kopo.ctc.kopo20.resort.domain.NoticeComment;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeCommentServiceImpl;
 import lombok.RequiredArgsConstructor;

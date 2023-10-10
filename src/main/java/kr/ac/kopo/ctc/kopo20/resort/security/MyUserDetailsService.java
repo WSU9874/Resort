@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import kr.ac.kopo.ctc.kopo20.resort.domain.Member;
+import kr.ac.kopo.ctc.kopo20.resort.repository.MemberRepository;
 import kr.ac.kopo.ctc.kopo20.resort.service.MemberService;
 
 @Component
 public class MyUserDetailsService implements UserDetailsService{
 	private final MemberService userService;
+	private MemberRepository memRepo;
 	
 	@Autowired
 	public MyUserDetailsService(MemberService userService) {
@@ -34,4 +36,6 @@ public class MyUserDetailsService implements UserDetailsService{
 				.build();
 	}
 
+
 }
+

@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.ac.kopo.ctc.kopo20.resort.domain.CommentRequest;
-import kr.ac.kopo.ctc.kopo20.resort.domain.CommentResponse;
 import kr.ac.kopo.ctc.kopo20.resort.domain.NoticeComment;
 import kr.ac.kopo.ctc.kopo20.resort.repository.Repo;
 

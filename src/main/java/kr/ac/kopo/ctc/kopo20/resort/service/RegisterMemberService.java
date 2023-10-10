@@ -18,8 +18,8 @@ public class RegisterMemberService {
 		this.memberRepository = memberRepository;
 	}
 	
-	public Long join(String userid, String pw) {
-		Member member = Member.createUser(userid, pw, passwordEncoder);
+	public Long join(String userid, String pw, String email,String phone, String address, String nickName) {
+		Member member = Member.createUser(userid, pw, passwordEncoder, email, phone, address, nickName);
 		validateDuplicateMember(member);
 		memberRepository.save(member);
 		

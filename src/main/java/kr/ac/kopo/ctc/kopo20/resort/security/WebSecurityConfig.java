@@ -32,6 +32,7 @@ public class WebSecurityConfig {
 						.requestMatchers(new AntPathRequestMatcher("/css/**")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/js/**")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/join")).permitAll()
+						.requestMatchers(new AntPathRequestMatcher("/auth/idCheck")).permitAll()/////
 						.requestMatchers(new AntPathRequestMatcher("/auth/join")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/index")).permitAll()
 						.requestMatchers(new AntPathRequestMatcher("/service")).permitAll()
