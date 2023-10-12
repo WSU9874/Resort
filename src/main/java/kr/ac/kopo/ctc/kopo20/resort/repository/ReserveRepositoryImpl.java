@@ -22,14 +22,12 @@ public class ReserveRepositoryImpl implements Repo.ReserveRepository {
 
 	@Override
 	public Reservation save(Reservation reservation) {
-		// TODO Auto-generated method stub
 		em.persist(reservation);
 		return reservation;
 	}
 
 	@Override
 	public Optional<Reservation> findById(Long id) {
-		// TODO Auto-generated method stub
 		Reservation reservation = em.find(Reservation.class, id);
 		return Optional.ofNullable(reservation);
 	}

@@ -4,13 +4,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Notice</title>
-
 	</head>
 
 	<body>
-		<br />
-		<br />
-		<br />
+		<br /><br /><br />
 		<div th:fragment="content">
 			<h3 style="text-align: center;">게시판</h3>
 			<form th:action="@{/notice}" method="get">
@@ -27,8 +24,9 @@
 						<th class="center" style="width: 100px;">조회수</th>
 					</tr>
 					<tr th:each="list, loop : ${paging}">
-						<!--<td style="text-align: left" th:text="${list.noticeId}"></td>-->
-						<td style="text-align: left">[[${paging.getTotalElements - (paging.number * paging.size) - loop.index}]]</td></td>
+						<td style="text-align: left">[[${paging.getTotalElements - (paging.number * paging.size) -
+							loop.index}]]</td>
+						</td>
 						<td style="text-align:left">
 							<a th:href="@{/noticeOne(noticeId=${list.noticeId})}" th:text="${list.title}"></a>
 						</td>
@@ -37,10 +35,8 @@
 						<td style="text-align: left" th:text="${list.viewCount}"></td>
 					</tr>
 				</table>
-			</div>
-			<div style="display: flex; width: 950px; justify-content: flex-end;">
-				<div style="padding-top: 10px; text-align: right">
-					<a href="/noticeNew" class="btn btn-primary"  sec:authorize="hasRole('ADMIN')">신규 등록</a>
+				<div style="padding-top: 10px; text-align: right; margin-left: auto;">
+					<a href="/noticeNew" class="btn btn-primary" sec:authorize="hasRole('ROLE_ADMIN')">신규 등록</a>
 				</div>
 			</div>
 
@@ -68,14 +64,8 @@
 			<div th:if="${#lists.isEmpty(notice)}">
 				<h4 style="text-align: center;">게시글이 없습니다.</h4>
 			</div>
-			<br />
-			<br />
-			<br />
+			<br /><br /><br />
 		</div>
-
-
-
-
 	</body>
 
 </html>

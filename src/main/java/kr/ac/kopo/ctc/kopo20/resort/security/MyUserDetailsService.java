@@ -17,7 +17,6 @@ import kr.ac.kopo.ctc.kopo20.resort.service.MemberService;
 @Component
 public class MyUserDetailsService implements UserDetailsService{
 	private final MemberService userService;
-	private MemberRepository memRepo;
 	
 	@Autowired
 	public MyUserDetailsService(MemberService userService) {

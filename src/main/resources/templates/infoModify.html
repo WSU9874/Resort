@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
+<div layout:fragment="content">
+
+	<body>
+		<br />
+		<div class="container">
+			<h3 class="form-signin-heading text-center mb-5">마이 페이지</h3>
+
+			<h3 class="overview-normalize">아이디</h3>
+			<p th:text="${user?.userid}">
+			</p>
+			<hr />
+
+			<h3 class='overview-normalize'>역할</h3>
+			<p th:text="${user?.roles}"></p>
+			<hr />
+
+			<h3 class='overview-normalize'>이메일</h3>
+			<div class="form-floating">
+				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
+					name="email">
+				<label for="email">Your Email</label>
+			</div>
+			<hr />
+
+			<h3 class='overview-normalize'>휴대폰 번호</h3>
+			<div class="form-floating">
+				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
+					name="email">
+				<label for="email">Your Phone Number</label>
+			</div>
+			<hr />
+
+			<h3 class='overview-normalize'>주소</h3>
+			<div class="form-floating">
+				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
+					name="email">
+				<label for="email">Your Address</label>
+			</div>
+			<hr />
+
+			<h3 class='overview-normalize'>닉네임</h3>
+			<div class="form-floating">
+				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
+					name="email">
+				<label for="email">Your Nick Name</label>
+			</div>
+			<hr />
+
+
+			<form method='get' action='/infoModify'>
+				<button type='submit' class='btn btn-sm btn-success btn-block'>수정 완료</button>
+			</form>
+		</div>
+		<br />
+	</body>
+</div>
+
+</html>

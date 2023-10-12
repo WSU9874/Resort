@@ -14,11 +14,6 @@ public class MemberService {
 	@Autowired
 	private MemberRepository repository;
 
-//	@Autowired
-//	public MemberService(MemberRepository repository) {
-//		this.repository = repository;
-//	}
-
 	public Optional<Member> findOne(String userId) {
 		return repository.findByUserid(userId);
 	}

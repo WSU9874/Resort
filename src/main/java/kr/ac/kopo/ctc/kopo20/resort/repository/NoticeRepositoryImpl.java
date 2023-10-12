@@ -41,17 +41,10 @@ public class NoticeRepositoryImpl implements Repo.NoticeRepository {
 		return notice;
 	}
 
-//	@Override
-//	public Notice deleteById(Long id) {
-//		List<Notice> notice = em.createQuery("delete n from notice n where n.id = :id", Notice.class).getResultList(); // JPQL
-//		return null;
-//	}
-
 	@Override
 	public void deleteById(Notice notice, Long id) {
 		notice = em.find(Notice.class, id);
 		em.remove(notice);
-
 	}
 
 	@Override

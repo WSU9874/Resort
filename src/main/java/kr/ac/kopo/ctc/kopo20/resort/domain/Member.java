@@ -27,7 +27,7 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(unique = true)
+	@Column(nullable = false, unique = true)
 	private String userid;
 	@Column
 	private String pw;
@@ -39,14 +39,12 @@ public class Member {
 	private String phone;
 	@Column(length = 15)
 	private String address;
-	@Column(length = 20, nullable = false, unique = true)
+	@Column(length = 11, nullable = false, unique = true)
 	private String nickname;
-	
-	
 
-	
-	public static Member createUser(String userId, String pw, PasswordEncoder passwordEncoder, String email, String phone, String address,String nickName) {
-		return new Member(null, userId, passwordEncoder.encode(pw), "USER", email, phone, address, nickName);
+	public static Member createUser(String userId, String pw, PasswordEncoder passwordEncoder, String email,
+			String phone, String address, String nickname) {
+		return new Member(null, userId, passwordEncoder.encode(pw), "USER", email, phone, address, nickname);
 	}
 
 }

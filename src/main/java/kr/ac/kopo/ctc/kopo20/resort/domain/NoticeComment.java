@@ -31,7 +31,6 @@ public class NoticeComment{
 	@JoinColumn(name = "noticeId")
 	private Notice notice;
 	
-//	private Long noticeId;
 	public Long getNoticeId() {
         if (notice != null) {
             return notice.getNoticeId();
@@ -58,16 +57,5 @@ public class NoticeComment{
     @Column(name = "created_date", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-
-    @Column(name = "modified_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedDate;
 	
 }   
-
-    // Getters and setters
-
-    // Constructors
-
-    // toString, equals, hashCode (if necessary)
-

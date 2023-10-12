@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import jakarta.transaction.Transactional;
 import kr.ac.kopo.ctc.kopo20.resort.dto.MemberDTO;
 import kr.ac.kopo.ctc.kopo20.resort.repository.MemberRepository;
 import kr.ac.kopo.ctc.kopo20.resort.service.RegisterMemberService;
@@ -36,7 +36,7 @@ public class AuthorizationController {
 	@PostMapping("/join")
 	public ResponseEntity<String> join(@RequestBody MemberDTO dto) {
 		try {
-			registerMemberService.join(dto.getUserid(), dto.getPw(), dto.getEmail(),dto.getPhone(),dto.getAddress(),dto.getNickName());
+			registerMemberService.join(dto.getUserid(), dto.getPw(), dto.getEmail(),dto.getPhone(),dto.getAddress(),dto.getNickname());
 			return ResponseEntity.ok("join success");
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -47,12 +47,12 @@ public class AuthorizationController {
 	@GetMapping("/idCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
 	public boolean overlappedID(@RequestParam("userid") String userid) throws Exception {
 		boolean result = repository.existsByUserid(userid); // 중복확인한 값을 int로 받음
-		System.out.println(result);
 		return result;
 	}
 	
 	@ResponseBody // 값 변환을 위해 꼭 필요함
 	@GetMapping("/nickCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+	@Transactional
 	public boolean overlappedNick(@RequestParam("nickname") String nickname) throws Exception {
 		boolean result = repository.existsByNickname(nickname); // 중복확인한 값을 int로 받음
 		System.out.println(result);

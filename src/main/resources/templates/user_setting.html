@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-사용자 페이지
-</body>
+<html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
+<div layout:fragment="content">
+
+	<body>
+		<br />
+		<div class="container">
+			<h3 class="form-signin-heading text-center mb-5">마이 페이지</h3>
+
+			<h3 class="overview-normalize">아이디</h3>
+			<p th:text="${user?.userid}">
+			</p>
+			<hr />
+
+			<h3 class='overview-normalize'>역할</h3>
+			<p th:text="${user?.roles}"></p>
+			<hr />
+
+			<h3 class='overview-normalize'>이메일</h3>
+			<p th:text="${user?.email}"></p>
+			<hr />
+
+			<h3 class='overview-normalize'>휴대폰 번호</h3>
+			<p th:text="${user?.phone}"></p>
+			<hr />
+
+			<h3 class='overview-normalize'>주소</h3>
+			<p th:text="${user?.address}"></p>
+			<hr />
+
+			<h3 class='overview-normalize'>닉네임</h3>
+			<p th:text="${user?.nickname}"></p>
+			<hr />
+
+			<form method='post' action='/logout'>
+				<button type='submit' class='btn btn-sm btn-danger btn-block'>로그아웃</button>
+			</form>
+			<br />
+			<form method='get' action='/infoModify'>
+				<button type='submit' class='btn btn-sm btn-success btn-block'>회원정보수정</button>
+			</form>
+
+		</div>
+		<br />
+	</body>
+</div>
+
 </html>

@@ -38,17 +38,13 @@ public interface Repo {
 
 	interface NoticeCommentRepository {
 
-		//댓글 저장
+		//댓글 저장, 수정
 
 		void save(NoticeComment params);
 
 		//댓글 상세정보 조회
 
 		NoticeComment findById(Long commentId);
-
-		//댓글 수정
-
-		void update(NoticeComment params);
 
 		//댓글 삭제
 

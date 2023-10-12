@@ -29,7 +29,6 @@ public class NoticeCommentServiceImpl implements Serv.NoticeCommentService {
 	@Override
 	public List<NoticeComment> findAllComment(Long noticeId) {
 		return cRepo.findAll(noticeId);
-
 	}
 
 	@Override
