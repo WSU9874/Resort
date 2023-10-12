@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>댓글 작성</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+   <center>
+      <h3>댓글 작성</h3>
+      <form method="post" action="/commentDB" id="root_id">
+      <table border="1">
+         <tr>
+            <td style="width: 100px; text-align:center;">원글 제목</td>
+            <td style="width: 300px;">
+                &nbsp;&nbsp;&nbsp;[[${board.title}]]
+                <input type="hidden" name="title" th:value="${board.title}">
+            </td>
+            <td style="width: 100px; text-align:center;">원글 번호</td>
+            <td style="width: 300px;">
+                &nbsp;&nbsp;&nbsp;[[${id}]]
+                <input type="hidden" name="root_id" th:value="${id}">
+            </td>
+         </tr>
+         <tr>
+            <td style="width: 100px; text-align:center;">내용</td>
+            <td colspan='3' style="width: 700px; height : 200px">
+                <textarea name="content" style="width: 690px; height : 180px"></textarea>
+            </td>
+         </tr>
+         <tr>
+            <td style="width: 100px; text-align:center;">등록일</td>
+            <td colspan='3' style="width: 300px;">[[${date}]]
+                <input type="hidden" name="date" th:value="${date}" />
+            </td>
+         </tr>
+      </table>
+      <div style="display: flex; width: 800px; justify-content: flex-end;">
+         <div style="padding-top: 10px;">
+            <button type="submit">댓글 등록</button>
+            <a href="/board/list"><button type="button">목록</button></a>
+         </div>
+      </div>
+      </form>
+   </center>
+</body>
+</html>
