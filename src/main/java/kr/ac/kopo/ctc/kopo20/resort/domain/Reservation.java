@@ -23,19 +23,19 @@ public class Reservation {
 	private Long id;
 	@Column
 	private Long roomId;
-	@Column
+	@Column(length = 20, nullable = false)
 	private String name;
-	@Column
+	@Column(length = 20, nullable = false)
 	private String email;
-	@Column
+	@Column(length = 20, nullable = false)
 	private Long adultCount;
-	@Column
+	@Column(length = 20, nullable = false)
 	private Long childCount;
-	@Column
+	@Column(length = 20, nullable = false)
 	private String phoneNum;
 	@Column
 	private String request;
-	@Column
+	@Column(nullable = false)
 	private String reservationDate;
 
 }

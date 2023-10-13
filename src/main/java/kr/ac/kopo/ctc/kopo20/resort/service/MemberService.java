@@ -14,13 +14,27 @@ public class MemberService {
 	@Autowired
 	private MemberRepository repository;
 
-	public Optional<Member> findOne(String userId) {
+	public Optional<Member> findOneUserId(String userId) {
 		return repository.findByUserid(userId);
+	}
+	
+	public Optional<Member> findOneId(Long id) {
+		return repository.findById(id);
 	}
 
 	public boolean existsByMemberId(String userid) throws Exception {
 		boolean  result = repository.existsByUserid(userid);
 		return result;
+	}
+	
+	public Member updateInfo(Member member) {
+		
+		return repository.save(member);
+	}
+	
+	public void deleteUser(Long id) {
+		repository.deleteById(id);
+		
 	}
 
 }

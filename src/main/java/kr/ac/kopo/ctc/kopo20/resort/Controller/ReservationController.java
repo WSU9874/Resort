@@ -98,7 +98,7 @@ public class ReservationController {
 		model.addAttribute("roomId", roomId);
 
 		String userid=principal.getName();
-        Member member=mser.findOne(userid).orElse(new Member());
+        Member member=mser.findOneUserId(userid).orElse(new Member());
         model.addAttribute("user", member);
 
 		return "reserveClick";

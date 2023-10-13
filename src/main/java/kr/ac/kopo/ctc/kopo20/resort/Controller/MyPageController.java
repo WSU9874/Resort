@@ -7,9 +7,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.validation.Valid;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Member;
+import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
+import kr.ac.kopo.ctc.kopo20.resort.dto.MemberDTO;
 import kr.ac.kopo.ctc.kopo20.resort.service.MemberService;
 
 @Controller
@@ -33,13 +39,36 @@ public class MyPageController {
 	@GetMapping("/setting/user")
 	public String user(Principal principal, Model model) {
 		String userid=principal.getName();
-        Member member=mser.findOne(userid).orElse(new Member());
+        Member member=mser.findOneUserId(userid).orElse(new Member());
         model.addAttribute("user", member);
 		return "user_setting";
 	}
 	
 	@GetMapping("/infoModify")
-	public String infoModify() {
+	public String infoModify(Principal principal, Model model) {
+		String userid=principal.getName();
+        Member member=mser.findOneUserId(userid).orElse(new Member());
+        model.addAttribute("user", member);
 		return "infoModify";
+	}
+	
+//	@PostMapping("/infoModify/{id}")
+//	public String infotmationModify(@PathVariable("id") long id, Model model) {
+//		model.addAttribute("member", mser.findOneId(id).orElse(new Member()));
+//		return "modify";
+//	}
+
+	@PostMapping("/infoUpdate/{id}")
+	public String informationUpdate(@PathVariable("id") long id, Member member, @Valid MemberDTO dto, BindingResult bindingResult, Model model) {
+		Member memberTemp = mser.findOneId(id).orElse(new Member());
+//		memberTemp.setPw(member.getPw());
+		memberTemp.setEmail(member.getEmail());
+		memberTemp.setPhone(member.getPhone());
+		memberTemp.setAddress(member.getAddress());
+		memberTemp.setNickname(member.getNickname());
+
+		mser.updateInfo(memberTemp);
+
+		return "redirect:/setting/user";
 	}
 }

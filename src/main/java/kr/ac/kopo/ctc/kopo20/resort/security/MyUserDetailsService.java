@@ -25,7 +25,7 @@ public class MyUserDetailsService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String insertedUserId) throws UsernameNotFoundException {
-		Optional<Member> findOne = userService.findOne(insertedUserId);
+		Optional<Member> findOne = userService.findOneUserId(insertedUserId);
 		Member user = findOne.orElseThrow(() -> new UsernameNotFoundException("없는 회원입니다"));
 		
 		return User.builder()

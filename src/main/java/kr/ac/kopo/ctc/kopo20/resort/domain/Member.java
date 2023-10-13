@@ -6,19 +6,17 @@ import org.springframework.stereotype.Component;
 import groovy.transform.builder.Builder;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "member")
-@Getter
+@Data
 @Component
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,19 +25,19 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(nullable = false, unique = true)
+	@Column(length = 20, nullable = false, unique = true)
 	private String userid;
-	@Column
+	@Column(nullable = false, unique = true)
 	private String pw;
 	@Column
 	private String roles;
-	@Column(length = 20, nullable = false, unique = true)
+	@Column
 	private String email;
-	@Column(length = 11, nullable = false, unique = true)
+	@Column
 	private String phone;
-	@Column(length = 15)
+	@Column(length = 20)
 	private String address;
-	@Column(length = 11, nullable = false, unique = true)
+	@Column(length = 20, nullable = false, unique = true)
 	private String nickname;
 
 	public static Member createUser(String userId, String pw, PasswordEncoder passwordEncoder, String email,

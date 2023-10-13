@@ -4,9 +4,10 @@
 
 	<body>
 		<br />
+			<form th:action="@{/infoUpdate/{id}(id=${user?.id})}" method="post" name="1">
 		<div class="container">
 			<h3 class="form-signin-heading text-center mb-5">마이 페이지</h3>
-
+			<input th:value="${user?.id}" type="hidden" id="id" name="id"></input>
 			<h3 class="overview-normalize">아이디</h3>
 			<p th:text="${user?.userid}">
 			</p>
@@ -26,30 +27,27 @@
 
 			<h3 class='overview-normalize'>휴대폰 번호</h3>
 			<div class="form-floating">
-				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
-					name="email">
-				<label for="email">Your Phone Number</label>
+				<input type="tel" class="form-control" id="phone" placeholder="Your Email" th:value="${user?.phone}"
+					name="phone">
+				<label for="phone">Your Phone Number</label>
 			</div>
 			<hr />
 
 			<h3 class='overview-normalize'>주소</h3>
 			<div class="form-floating">
-				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
-					name="email">
-				<label for="email">Your Address</label>
+				<input type="text" class="form-control" id="address" placeholder="Your Email" th:value="${user?.address}"
+					name="address">
+				<label for="address">Your Address</label>
 			</div>
 			<hr />
 
 			<h3 class='overview-normalize'>닉네임</h3>
 			<div class="form-floating">
-				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
-					name="email">
-				<label for="email">Your Nick Name</label>
+				<input type="text" class="form-control" id="nickname" placeholder="Your Email" th:value="${user?.nickname}"
+					name="nickname">
+				<label for="nickname">Your Nick Name</label>
 			</div>
 			<hr />
-
-
-			<form method='get' action='/infoModify'>
 				<button type='submit' class='btn btn-sm btn-success btn-block'>수정 완료</button>
 			</form>
 		</div>
