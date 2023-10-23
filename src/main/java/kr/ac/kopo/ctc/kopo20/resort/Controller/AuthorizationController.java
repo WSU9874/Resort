@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import kr.ac.kopo.ctc.kopo20.resort.dto.MemberDTO;
 import kr.ac.kopo.ctc.kopo20.resort.repository.MemberRepository;
@@ -34,7 +35,8 @@ public class AuthorizationController {
 	private MemberRepository repository;
 
 	@PostMapping("/join")
-	public ResponseEntity<String> join(@RequestBody MemberDTO dto) {
+	public ResponseEntity<String> join(@RequestBody MemberDTO dto, HttpServletRequest request) {
+		String backURL = request.getHeader("referer");
 		try {
 			registerMemberService.join(dto.getUserid(), dto.getPw(), dto.getEmail(),dto.getPhone(),dto.getAddress(),dto.getNickname());
 			return ResponseEntity.ok("join success");
