@@ -2,9 +2,16 @@
 <html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
 <div layout:fragment="content">
 
+	<style>
+		.parents {
+			width: 1000px;
+			margin: 0 auto;
+		}
+	</style>
+
 	<body>
 		<br />
-		<div class="container">
+		<div class="container parents">
 			<h3 class="form-signin-heading text-center mb-5">마이 페이지</h3>
 
 			<h3 class="overview-normalize">아이디</h3>
@@ -32,14 +39,16 @@
 			<p th:text="${user?.nickname}"></p>
 			<hr />
 
-			<form method='post' action='/logout'>
-				<button type='submit' class='btn btn-sm btn-danger btn-block'>로그아웃</button>
-			</form>
-			<br />
-			<form method='get' action='/infoModify'>
-				<button type='submit' class='btn btn-sm btn-success btn-block'>회원정보수정</button>
-			</form>
+			<div class="container">
+				<form method='get' action='/infoModify'>
+					<button type='submit' class='btn btn-sm btn-success btn-block'>회원정보수정</button>
+				</form>
+				<button type='button' class='btn btn-sm btn-primary btn-block' th:onclick="|location.href='@{../booked(name=${user?.userid})}'|">나의 예약</button>
+				<form method='post' action='/logout'>
+					<button type='submit' class='btn btn-sm btn-danger btn-block'>로그아웃</button>
+				</form>
 
+			</div>
 		</div>
 		<br />
 	</body>

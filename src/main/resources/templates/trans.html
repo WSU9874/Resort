@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
+<div layout:fragment="content">
+
+	<style>
+		.parents {
+			width: 1000px;
+			background-color: whitesmoke;
+			margin: 0 auto;
+		}
+	</style>
+
+	<body>
+		<div style="text-align: center;">
+			<!-- Page Header Start -->
+			<div class="container-fluid page-header mb-5 p-0" style="background-image: url(img/carousel-1.jpg);">
+				<div class="container-fluid page-header-inner py-5">
+					<div class="container text-center pb-5">
+						<h1 class="display-3 text-white mb-3 animated slideInDown">Public</h1>
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb justify-content-center text-uppercase">
+								<li class="breadcrumb-item"><a href="index">Home</a></li>
+								<li class="breadcrumb-item"><a href="contact">contact</a></li>
+								<li class="breadcrumb-item text-white active" aria-current="page">Public</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+			<!-- Page Header End -->
+		</div>
+		</br></br></br>
+		<div style="display: block; text-align: center;" class="parents"><!--버스/기차-->
+
+			<h3 class="mt0">고속/시외버스</h3>
+			<!-- 테이블_Normal -->
+			<div class="tbl_normal line">
+				<table summary="고속/시외버스 안내 입니다.">
+					<caption>고속/시외버스 안내</caption>
+					<colgroup>
+						<col style="width: 184px;">
+						<col style="width: 184px;">
+						<col style="width: 80px;">
+						<col style="width: 80px;">
+						<col style="width: 110px;">
+						<col style="width: auto;">
+						<col style="width: 180px;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col" rowspan="2">구분</th>
+							<th scope="col" rowspan="2">운행구간</th>
+							<th scope="col" colspan="2">운행시간</th>
+							<th scope="col" rowspan="2">소요시간</th>
+							<th scope="col" rowspan="2">요금</th>
+							<th scope="col" rowspan="2">비고</th>
+						</tr>
+						<tr>
+							<th scope="col">첫차</th>
+							<th scope="col">막차</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="bl0" rowspan="2"><a href="https://www.hticket.co.kr/main.do" target="_blink">서울
+									센트럴</a></td><!--2019-04-26 링크추가-->
+							<td>서울 → 진도</td>
+							<td>07 : 55</td><!--2019-04-26 -->
+							<td>17 : 00</td><!--2019-04-26 -->
+							<td>4시간 40분</td>
+							<td>우등 : 40,900원<br>프리미엄 : 53,200원</td><!--2019-04-26 수정-->
+							<td rowspan="2"><button onclick="location.href='https://txbus.t-money.co.kr/main.do'"
+									target="_blink" class="btn btn-success">홈페이지 바로가기</button></td><!--2019-04-30 수정-->
+						</tr>
+						<tr>
+							<td>서울 → 목포</td>
+							<td>06 : 00</td><!--2019-04-26 -->
+							<td>23 : 55</td><!--2019-04-26 -->
+							<td>4시간</td>
+							<td style="font-size:0.9em;">우등 : 36,000원<br>
+								고속 : 25,900원<br>
+								심야우등 : 39,600원<br>
+								심야고속 : 28,400원<br>
+								프리미엄 : 46,800원<br>
+								심야프리미엄 : 51,400원
+							</td><!--2019-04-26 수정-->
+						</tr>
+						<tr>
+							<td class="bl0"><a href="https://www.hticket.co.kr/main.do" target="_blink">광주버스터미널</a></td>
+							<!--2019-04-30 링크추가-->
+							<td>광주 → 쏠비치 진도</td>
+							<td>08 : 40</td>
+							<!--2019-04-26 -->
+							<td>09 : 40</td>
+							<!--2019-04-26 -->
+							<td>2시간 35분</td>
+							<td rowspan="2"> · 우등 23,100원<br>(광주 ↔ 쏠비치 진도 어른요금 기준)</td><!--2019-04-26 수정-->
+							<td rowspan="2"><button onclick="location.href='https://txbus.t-money.co.kr/main.do'"
+									target="_blink" class="btn btn-success">홈페이지 바로가기</button></td><!--2019-04-30 수정-->
+						</tr>
+						<tr>
+							<td class="bl0"><a href="https://www.hticket.co.kr/main.do" target="_blink">쏠비치진도</a></td>
+							<!--2019-04-30 링크추가-->
+							<td>쏠비치진도 → 광주</td>
+							<td>12 : 00</td><!--2019-04-26 -->
+							<td>17 : 10</td><!--2019-04-26 -->
+							<td>2시간 35분</td>
+						</tr>
+						<tr>
+							<td class="bl0"><a href="https://www.hticket.co.kr/main.do" target="_blink">송정역</a></td>
+							<td>송정역 → 쏠비치진도 </td>
+							<td>09 : 00</td>
+							<td>10 : 00</td>
+							<td>2시간 15분</td>
+							<td>우등 20,800원<br>(송정역 ↔ 쏠비치 진도 어른요금 기준)</td>
+							<td><button type="button" onclick="location.href='https://txbus.t-money.co.kr/main.do'"
+									target="_blink" class="btn btn-success">홈페이지
+									바로가기</button></td>
+						</tr>
+						<tr>
+							<td class="bl0"><a href="https://www.hticket.co.kr/main.do" target="_blink">쏠비치진도</a></td>
+							<td>쏠비치진도 →송정역 </td>
+							<td>12 : 00</td>
+							<td>17 : 10</td>
+							<td>2시간 23분</td>
+							<td>우등 20,800원</td>
+							<td><button type="button" onclick="location.href='https://txbus.t-money.co.kr/main.do'"
+									target="_blink" class="btn btn-success">홈페이지
+									바로가기</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- //테이블_Normal -->
+			<div class="guide_txt" style="text-align: left;">
+				<ul>
+					<li>[쏠비치진도 → 광주] 컨벤션센터 1층 무인 발매기에서 예매 후 쏠비치진도에서 탑승 가능 </li>
+					<li>자세한 버스 운행시간 및 예약, 기타 자세한 사항은 해당 홈페이지를 이용해 주시기 바랍니다.</li>
+				</ul>
+			</div>
+
+			<dl class="dl_wrap" style="text-align: left;">
+				<dt>[고속버스 터미널에서 리조트 오시는 방법]</dt><!--2019-04-26 수정-->
+				<dd>
+					1. 진도터미널 → 쏠비치 진도(의신면 방향) <br>
+					&nbsp;&nbsp;&nbsp;&nbsp;- 송군 ↔ 회동 군내버스 약 25분소요 <br>
+					- (진도 → 쏠비치) <br> &nbsp;&nbsp;&nbsp;&nbsp; 운행시간 : 첫차 09:00 / 막차 15:20(쏠비치 → 진도)<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;- <a href="https://www.jindo.go.kr/tour/sub.cs?m=80" target="_blink"><span
+							style="font-size:14px;color:#32a19f;">진도 시외버스 터미널(061-544-2121) 시간표 보기</span></a>
+				</dd>
+			</dl>
+
+
+			<h3>기차</h3>
+			<!-- 테이블_Normal -->
+			<div class="tbl_normal line">
+				<table summary="기차 안내 입니다.">
+					<caption>기차 안내</caption>
+					<colgroup>
+						<col style="width: 184px;">
+						<col style="width: 184px;">
+						<col style="width: 80px;">
+						<col style="width: 80px;">
+						<col style="width: 110px;">
+						<col style="width: auto;">
+						<col style="width: 180px;">
+					</colgroup>
+					<thead>
+						<tr>
+							<th scope="col" rowspan="2">출발 역</th>
+							<th scope="col" rowspan="2">도착 역</th>
+							<th scope="col" colspan="2">운행시간</th>
+							<th scope="col" rowspan="2">소요시간</th>
+							<th scope="col" rowspan="2">요금</th>
+							<th scope="col" rowspan="2">비고</th>
+						</tr>
+						<tr>
+							<th scope="col">첫차</th>
+							<th scope="col">막차</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="bl0"><a href="http://www.letskorail.com/ebizprd/prdMain.do"
+									target="_blink">용산역(KTX)</a></td><!--2019-05-08 링크추가-->
+							<td>목포</td>
+							<td>05 : 07</td><!--2019-04-26 -->
+							<td>21 :17</td><!--2019-04-26 -->
+							<td>약 2시간 30분</td>
+							<td>일반실 : 52,800 특실 : 73,900원</td><!--2019-04-26 수정-->
+							<td><button onclick="location.href='http://www.letskorail.com/ebizprd/prdMain.do'"
+									target="_blink" class="btn btn-success">홈페이지 바로가기</button></td>
+						</tr>
+						<tr>
+							<td class="bl0"><a href="https://etk.srail.co.kr" target="_blink">수서역(SRT)</a></td>
+							<!--2019-05-08 링크추가-->
+							<td>목포</td>
+							<td>05 : 08</td><!--2019-04-26 -->
+							<td>21 : 08</td><!--2019-04-26 -->
+							<td>약 2시간 20분</td>
+							<td>일반실 : 45,800원, 특실 : 66,900원</td><!--2019-04-26 수정-->
+							<td><button onclick="location.href='http://www.letskorail.com/ebizprd/prdMain.do'"
+									target="_blink" class="btn btn-success">홈페이지 바로가기</button></td>
+						</tr>
+						<tr>
+							<td class="bl0"><a href="http://www.letskorail.com/ebizprd/prdMain.do"
+									target="_blink">용산역(KTX)</a></td>
+							<td>송정역</td>
+							<td>05 : 07</td>
+							<td>22 : 22</td>
+							<td>약 1시간 53분</td>
+							<td>일반실 : 46,800원, 특실 : 65,500원</td>
+							<td><button onclick="location.href='http://www.letskorail.com/ebizprd/prdMain.do'"
+									target="_blink" class="btn btn-success">홈페이지 바로가기</button></td>
+						</tr>
+						<tr>
+							<td class="bl0"><a href="https://etk.srail.co.kr" target="_blink">수서역(SRT)</a></td>
+							<td>송정역</td>
+							<td>05 : 08</td>
+							<td>22 : 55</td>
+							<td>약 1시간 43분</td>
+							<td>일반실 : 40,300 특실 : 58,700원</td>
+							<td><button onclick="location.href='http://www.letskorail.com/ebizprd/prdMain.do'"
+									target="_blink" class="btn btn-success">홈페이지 바로가기</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- //테이블_Normal -->
+			<div class="guide_txt" style="text-align: left;">
+				<ul>
+					<li style=>자세한 기차 운행시간 및 예약, 기타 자세한 사항은 해당 홈페이지를 이용해 주시기 바랍니다.</li>
+				</ul>
+			</div>
+			<dl class="dl_wrap" style="text-align: left;">
+				<dt>목포역에서 리조트 오시는 방법</dt><!--2019-04-26 수정-->
+				<dd>
+					1. 목포역 → 목포종합터미널<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; - 택시 : 약 15분 소요<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; - 버스 : 시내버스 200번 약 25분 소요<br><br>
+					2. 목포종합터미널 → 진도 공용터미널<br><!--2019-05-20 수정-->
+					&nbsp;&nbsp;&nbsp;&nbsp;- 운행시간: 첫차 06:30 / 막차 20:30 | 1시간 10분 소요<br>
+
+				</dd>
+				<dt style="margin-top:20px">송정역에서 리조트 오시는 방법</dt>
+				<dd>
+					1. 송정역 → 쏠비치 진도<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; - 버스 : 시외버스 2시간 15분 소요<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; (송정역에서 바로 탑승가능)
+
+				</dd>
+			</dl>
+		</div>
+
+	</body>
+
+</html>

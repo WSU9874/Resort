@@ -51,5 +51,9 @@ public class ReservationServiceImpl implements Serv.ReservationListService {
 		List<Reservation> result = reserveRepository.findAll();
 		return result;
 	}
+	@Override
+	public List<Reservation> getReservationById(String name) {
+		return reserveRepository.findAllById(name);
+	}
 
 }

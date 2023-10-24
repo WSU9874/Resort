@@ -33,8 +33,17 @@ public class ReserveRepositoryImpl implements Repo.ReserveRepository {
 	}
 
 	@Override
+	public List<Reservation> findAllById(String name) {
+		List<Reservation> result = em.createQuery("select r from Reservation r where r.name = :name", Reservation.class)
+				.setParameter("name", name)
+				.getResultList(); //JPQL
+		return result;
+	}
+	
+	@Override
 	public List<Reservation> findAll() {
-		List<Reservation> result = em.createQuery("select r from Reservation r", Reservation.class).getResultList(); //JPQL
+		List<Reservation> result = em.createQuery("select r from Reservation r", Reservation.class)
+				.getResultList(); //JPQL
 		return result;
 	}
 

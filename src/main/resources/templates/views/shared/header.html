@@ -61,7 +61,7 @@
 		<div class="container-fluid bg-dark px-0">
 			<div class="row gx-0">
 				<div class="col-lg-3 bg-dark d-none d-lg-block">
-					<a href="index"
+					<a href="../index"
 						class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
 						<h1 class="m-0 text-primary text-uppercase">Polysort</h1>
 					</a>
@@ -78,15 +78,15 @@
 								<p class="mb-0">010-1234-5678</p>
 							</div>
 
-&ensp;&ensp;현재 접속중: 
-<span sec:authentication="name"  style="color: blue;"></span>
+							&ensp;&ensp;현재 접속중:
+							<span sec:authentication="name" style="color: blue;"></span>
 
 
 						</div>
 
 					</div>
 					<nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 p-lg-0">
-						<a href="index" class="navbar-brand d-block d-lg-none">
+						<a href="../index" class="navbar-brand d-block d-lg-none">
 							<h1 class="m-0 text-primary text-uppercase">Polysort</h1>
 						</a>
 						<button type="button" class="navbar-toggler" data-bs-toggle="collapse"
@@ -99,16 +99,16 @@
 
 
 
-								<a href="about" class="nav-item nav-link"
+								<a href="../about" class="nav-item nav-link"
 									th:classappend="${var == 2 ? 'active' : ''}">About</a>
-								<a href="service" class="nav-item nav-link"
+								<a href="../service" class="nav-item nav-link"
 									th:classappend="${var == 3 ? 'active' : ''}">Services</a>
-								<a href="room" class="nav-item nav-link"
+								<a href="../room" class="nav-item nav-link"
 									th:classappend="${var == 4 ? 'active' : ''}">Rooms</a>
 
 
 								<li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"></li>
-								<a href="reservationStatus" class="nav-item nav-link"
+								<a href="../reservationStatus" class="nav-item nav-link"
 									th:classappend="${var == 4 ? 'active' : ''}">Booking</a>
 
 
@@ -118,18 +118,16 @@
 										th:classappend="${var2 == 890 ? 'active' : ''}"
 										data-bs-toggle="dropdown">Location</a>
 									<div class="dropdown-menu rounded-0 m-0">
-										<a href="contact" class="dropdown-item"
+										<a href="../contact" class="dropdown-item"
 											th:classappend="${var == 8 ? 'active' : ''}">Location</a>
-										<a href="public" class="dropdown-item"
-											th:classappend="${var == 9 ? 'active' : ''}">Public Transportation</a>
-										<a href="owncar" class="dropdown-item"
-											th:classappend="${var == 10 ? 'active' : ''}">Own Car</a>
+										<a href="../trans" class="dropdown-item"
+											th:classappend="${var == 9 ? 'active' : ''}">Public</a>
 									</div>
 								</div>
-								<a href="nearby" class="nav-item nav-link"
+								<a href="../nearby" class="nav-item nav-link"
 									th:classappend="${var == 1 ? 'active' : ''}">Nearby</a>
 
-								<a href="notice" class="nav-item nav-link"
+								<a href="../notice" class="nav-item nav-link"
 									th:classappend="${var == 1 ? 'active' : ''}">Notice</a>
 
 								<li class="nav-item" sec:authorize="isAnonymous()">
@@ -137,14 +135,18 @@
 										style="position: absolute; right: 0" href="login">Login<i
 											class="fa fa-arrow-right ms-3"></i></a>
 								</li>
-								<li class="nav-item" sec:authorize="isAuthenticated()">
-									<a class="btn btn-primary rounded-0 py-4 px-md-4 d-none d-lg-block" href="dashboard"
-										style="position: absolute; right: 140px">MyPage<i
+								<li class="nav-item" sec:authorize="hasRole('ROLE_USER')">
+									<a class="btn btn-primary rounded-0 py-4 px-md-4 d-none d-lg-block"
+										href="/setting/user" style="position: absolute; right: 140px">MyPage<i
+											class="fa fa-arrow-right ms-3"></i></a>
+								<li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+									<a class="btn btn-primary rounded-0 py-4 px-md-4 d-none d-lg-block"
+										href="/setting/admin" style="position: absolute; right: 140px">MyPage<i
 											class="fa fa-arrow-right ms-3"></i></a>
 
 								<li class="nav-item" sec:authorize="isAuthenticated()">
 									<a class="btn btn-primary rounded-0 py-4 px-md-4 d-none d-lg-block justify-content-end"
-										style="position: absolute; right: 0" href="logout">LogOut<i
+										style="position: absolute; right: 0" href="../logout">LogOut<i
 											class="fa fa-arrow-right ms-3"></i></a>
 								</li>
 

@@ -25,6 +25,8 @@ public interface Serv {
 		void deleteOneReservation(long id);
 		
 		List<Reservation> getReservationsFor30Days();
+		
+		List<Reservation> getReservationById(String name);
 	}
 
 	interface NoticeService {

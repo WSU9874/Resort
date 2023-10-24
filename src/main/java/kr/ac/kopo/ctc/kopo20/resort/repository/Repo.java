@@ -15,6 +15,8 @@ public interface Repo {
 		// read
 		Optional<Reservation> findById(Long id);
 
+		List<Reservation> findAllById(String name);
+		
 		List<Reservation> findAll();
 
 		// delete

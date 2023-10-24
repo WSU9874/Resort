@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
+<div layout:fragment="content">
+
+	<!-- Page Header Start -->
+	<div class="container-fluid page-header mb-5 p-0" style="background-image: url(/bootstrap/img/carousel-1.jpg);">
+		<div class="container-fluid page-header-inner py-5">
+			<div class="container text-center pb-5">
+				<h1 class="display-3 text-white mb-3 animated slideInDown">current</h1>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb justify-content-center text-uppercase">
+						<li class="breadcrumb-item"><a href="notice">Notice</a></li>
+						<li class="breadcrumb-item text-white active" aria-current="page">current</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+	<!-- Page Header End -->
+	
+
+	<body>
+		<div class="container" style="width: 60%;text-align: center;" >
+			<h1>예약현황</h1></br></br></br>
+			<table class="table table-hover" border="1">
+				<tr>
+					<th class="center" style="width: 500px;">예약일</th>
+					<th class="center" style="width: 150px;">성인</th>
+					<th class="center" style="width: 150px;">어린이</th>
+					<th class="center" style="width: 150px;">이메일</th>
+					<th class="center" style="width: 100px;">이름</th>
+					<th class="center" style="width: 100px;">휴대폰</th>
+					<th class="center" style="width: 150px;">방번호</th>
+					<th class="center" style="width: 200px;">요청사항</th>
+				</tr>
+				<tr th:each="list, loop : ${list}">
+					<td style="text-align: left" th:text="${list.reservationDate}"></td>
+					<td style="text-align: left" th:text="${list.adultCount}"></td>
+					<td style="text-align: left" th:text="${list.childCount}"></td>
+					<td style="text-align: left" th:text="${list.email}"></td>
+					<td style="text-align: left" th:text="${list.name}"></td>
+					<td style="text-align: left" th:text="${list.phoneNum}"></td>
+					<td style="text-align: left" th:text="${list.roomId}"></td>
+					<td style="text-align: left" th:text="${list.request}"></td>
+				</tr>
+			</table>
+		</div></br></br></br>
+	</body>
+
+</html>

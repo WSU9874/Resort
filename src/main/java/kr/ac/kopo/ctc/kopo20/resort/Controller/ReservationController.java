@@ -120,5 +120,17 @@ public class ReservationController {
 		reSer.create(re);
 		return "reserveClick";
 	}
+	
+	@GetMapping("/booked")
+	public String booked(Model model, @RequestParam("name") String name) {
+		List<Reservation> reservation = reSer.getReservationById(name);
+		model.addAttribute("list",reservation);
+		return "booked";
+	}
+	
+	@GetMapping("/bookUpdate")
+	public String bookUpdate() {
+		return "bookUpdate";
+	}
 
 }

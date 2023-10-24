@@ -73,14 +73,18 @@
 						<td th:text="${roomStatus.reservationDate}"></td>
 
 						<td style="text-align: center;">
-							<span th:if="${roomStatus.room1Status} != '0'" th:text="${roomStatus.room1Status}"></span>
+							<span th:if="${roomStatus.room1Status != '0'}">
+								<a th:href="@{/bookUpdate}" th:text="${roomStatus.room1Status}" style="color: blue;"></a>
+							</span>
 							<span th:unless="${roomStatus.room1Status} != '0'">
 								<a
 									th:href="@{'/reserveClick?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=1'}">예약
 									가능</a>
 							</span>
 						<td style="text-align: center;">
-							<span th:if="${roomStatus.room2Status} != '0'" th:text="${roomStatus.room2Status}"></span>
+							<span th:if="${roomStatus.room2Status != '0'}">
+								<a th:href="@{/bookUpdate}" th:text="${roomStatus.room2Status}" style="color: blue;"></a>
+							</span>
 							<span th:unless="${roomStatus.room2Status} != '0'">
 								<a
 									th:href="@{'/reserveClick?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=2'}">예약
@@ -88,8 +92,9 @@
 							</span>
 						</td>
 						<td style="text-align: center;">
-							<span th:if="${roomStatus.room3Status} != '0'" th:text="${roomStatus.room3Status}"></span>
-							<span th:unless="${roomStatus.room3Status} != '0'">
+							<span th:if="${roomStatus.room3Status != '0'}">
+								<a th:href="@{/bookUpdate}" th:text="${roomStatus.room3Status}" style="color: blue;"></a>
+							</span> <span th:unless="${roomStatus.room3Status} != '0'">
 								<a
 									th:href="@{'/reserveClick?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=3'}">예약
 									가능</a>

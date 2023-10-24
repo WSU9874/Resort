@@ -120,5 +120,10 @@ public class ResortItemController {
 	public String join() {
 		return "join";
 	}
+	
+	@GetMapping("/trans")
+	public String trans() {
+		return "trans";
+	}
 
 }
