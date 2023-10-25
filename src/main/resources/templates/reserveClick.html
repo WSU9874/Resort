@@ -44,7 +44,7 @@
 										<div class="form-floating">
 											<input type="text" class="form-control" name="name"
 												th:value="${#authentication.principal.username}" id="name"
-												placeholder="User name">
+												placeholder="User name" disabled>
 											<label for="name">User name</label>
 										</div>
 									</div>
@@ -84,6 +84,7 @@
 									<div class="col-md-6">
 										<div class="form-floating">
 											<select class="form-select" id="select2" name="childCount">
+												<option value="1">Child 0</option>
 												<option value="1">Child 1</option>
 												<option value="2">Child 2</option>
 												<option value="3">Child 3</option>
@@ -94,7 +95,7 @@
 									<div class="col-12">
 										<div class="form-floating">
 											Room Number
-											<input type="text" name="root_id" th:value="${roomId}">
+											<input type="text" name="root_id" th:value="${roomId}" disabled>
 										</div>
 									</div>
 									<div class="col-12">

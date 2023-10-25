@@ -2,9 +2,12 @@ package kr.ac.kopo.ctc.kopo20.resort.domain;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,6 +40,9 @@ public class Notice{
 	private String content;
 	@Column
 	private Long viewCount;
+	@JsonIgnore
+	@OneToMany(mappedBy = "notice", orphanRemoval = true)
+	private List<NoticeComment> comment;
 }
 
 

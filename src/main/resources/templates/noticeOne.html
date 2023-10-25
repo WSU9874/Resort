@@ -10,58 +10,77 @@
 			table {
 				border-collapse: collapse;
 			}
+
+			th,
+			td {
+				border: 1px solid black;
+				/* 각 셀에 1px 두께의 검은색 테두리 설정 */
+				padding: 10px;
+				/* 셀 내부 여백 설정 */
+			}
 		</style>
 	</head>
 
 	<body>
 		<br /><br />
-		<form th:action="@{/modify/{noticeId}(noticeId=${notice.noticeId})}" method="post" name="1">
-			<center>
-				<h3>게시판</h3>
-				<table border="1">
-					<tr>
-						<td style="width: 100px; text-align:center;">번호</th>
-						<td colspan='3' style="width: 700px;" th:text="${notice.noticeId}">
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 100px; text-align:center;">제목</th>
-						<td colspan='3' style="width: 700px;" th:text="${notice.title}">
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 100px; text-align:center;">글쓴이</th>
-						<td colspan='3' style="width: 700px;" th:text="${notice.writer}">
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 100px; text-align:center;">내용</td>
-						<td colspan='3' style="width: 700px; height : 500px" th:text="${notice.content}">
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 100px; text-align:center;">등록일</td>
-						<td style="width: 300px;" th:text="${notice.date}">
-							<input type="hidden" name="date" th:value="${notice.date}">
-						</td>
-						<td style="width: 100px; text-align:center;">조회수</td>
-						<td style="width: 300px;" th:text="${notice.viewCount}">
-							<input type="hidden" name="viewcnt" th:value="${notice.viewCount}">
-						</td>
-					</tr>
-				</table>
-				<br /><br />
-				<div style="display: flex; width: 800px; justify-content: flex-end;">
-					<div style="padding-top: 10px;">
-						<a th:href="@{/deleteDB(noticeId=${notice.noticeId})}"><button type="button">삭제</button></a>
-						<button type="submit">수정</button></a>
-						<a th:href="@{/notice}"><button type="button">목록</button></a>
-					</div>
-				</div>
-			</center>
+		<h3 style="text-align: center;">게시판</h3><br /><br />
+		<div style="width: 800px; margin: 0 auto;">
+			<table border="1">
+				<tr>
+					<td style="width: 100px; text-align:center;">번호</th>
+					<td colspan='3' style="width: 700px;" th:text="${notice.noticeId}">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 100px; text-align:center;">제목</th>
+					<td colspan='3' style="width: 700px;" th:text="${notice.title}">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 100px; text-align:center;">글쓴이</th>
+					<td colspan='3' style="width: 700px;" th:text="${notice.writer}">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 100px; text-align:center;vertical-align: top;">내용</td>
+					<td colspan='3' style="width: 700px; height : 500px; vertical-align: top;"
+						th:utext="${notice.content}">
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 100px; text-align:center;">등록일</td>
+					<td style="width: 300px;" th:text="${notice.date}">
+						<input type="hidden" name="date" th:value="${notice.date}">
+					</td>
+					<td style="width: 100px; text-align:center;">조회수</td>
+					<td style="width: 300px;" th:text="${notice.viewCount}">
+						<input type="hidden" name="viewcnt" th:value="${notice.viewCount}">
+					</td>
+				</tr>
+			</table>
+			<br /><br />
+			<div style="display: flex; justify-content: flex-end;">
+				<form th:action="@{/modify/{noticeId}(noticeId=${notice.noticeId})}" method="post" name="1">
+					<button class='btn btn-sm btn-success btn-block' type="submit" th:if="${notice.writer == user?.nickname}">수정</button>
+				</form>
 
-		</form>
+				<form method='post' action="/deleteDB">
+					<input type="hidden" name="noticeId" th:value="${notice.noticeId}" />
+					<button type='submit' class='btn btn-sm btn-danger btn-block' th:if="${notice.writer == user?.nickname}">삭제</button>
+				</form>
+
+				<a th:href="@{/notice}"><button class='btn btn-sm btn-info btn-block' type="button">목록</button></a>
+			</div>
+
+
+		</div>
+
+
+
+
+
 		<div th:attr="data-num=${noticeId}"></div>
+		<div th:attr="data-writer=${user?.nickname}"></div>
 	</body>
 	<!--/* 댓글 작성 */-->
 	<div class="cm_write" style="text-align: center; max-width: 800px; margin: 0 auto;">
@@ -146,10 +165,11 @@
 				isValid(content, '댓글');
 
 				const noticeId = document.querySelector('[data-num]').getAttribute('data-num');
+				const writer = document.querySelector('[data-writer]').getAttribute('data-writer');
 				const params = {
 					noticeId: noticeId,
 					content: content.value,
-					writer: '홍길동',
+					writer: writer,
 					deleteYn: false
 				}
 
@@ -180,6 +200,9 @@
 			function findAllComment() {
 
 				const noticeId = document.querySelector('[data-num]').getAttribute('data-num');
+				const writer = document.querySelector('[data-writer]').getAttribute('data-writer');
+
+
 
 				$.ajax({
 					url: `/posts/${noticeId}/comments`,
@@ -199,6 +222,9 @@
 
 						// 3. 댓글 HTML 추가
 						response.forEach(row => {
+							const canEdit = writer === row.writer;
+							console.log(writer);
+							console.log(row.writer);
 							commentHtml += `
                         <div style="text-align: left; max-width: 800px; margin: 0 auto;">
                             <span class="writer_img"><img src="/images/default_profile.png" width="30" height="30" alt="기본 프로필 이미지"/></span>
@@ -208,8 +234,8 @@
                             </p>
                             <div class="cont"><div class="txt_con">${row.content}</div></div>                         
                             <p class="func_btns">
-        						<button type="button" onclick="openCommentUpdatePopup(${row.commentId});" class="btns"><span class="icons icon_modify">수정</span></button>
-        						<button type="button" onclick="deleteComment(${row.commentId});" class="btns"><span class="icons icon_del">삭제</span></button>
+								<button type="button" ${canEdit ? `onclick="openCommentUpdatePopup(${row.commentId});"` : 'disabled'} class="btns" style="${canEdit ? '' : 'display: none;'}"><span class="icons icon_modify">수정</span></button>
+            					<button type="button" ${canEdit ? `onclick="deleteComment(${row.commentId});"` : 'disabled'} class="btns" style="${canEdit ? '' : 'display: none;'}"><span class="icons icon_del">삭제</span></button>
    							</p>
                         </div>
                     `;

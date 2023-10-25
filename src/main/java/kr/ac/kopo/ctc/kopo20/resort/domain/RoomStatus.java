@@ -7,6 +7,7 @@ import lombok.Data;
 public class RoomStatus {
 
 	private String reservationDate;
+	private String week;
 	private String room1Status;
 	private String room2Status;
 	private String room3Status;

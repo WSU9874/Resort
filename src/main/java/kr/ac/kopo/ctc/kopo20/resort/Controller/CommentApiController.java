@@ -3,6 +3,7 @@ package kr.ac.kopo.ctc.kopo20.resort.Controller;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+
 public class CommentApiController {
 
 	private final NoticeCommentServiceImpl commentService;
@@ -30,7 +32,6 @@ public class CommentApiController {
 		System.out.println(now);
 		System.out.println(id);
 		return commentService.findCommentById(id);
-//		return null;
 	}
 	
     // 댓글 리스트 조회

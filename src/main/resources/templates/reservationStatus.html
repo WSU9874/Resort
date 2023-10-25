@@ -29,6 +29,7 @@
 				<thead>
 					<tr style="text-align: center;">
 						<th>예약 일자</th>
+						<th>요일</th>
 						<th>Junior Suite</th>
 						<th>Executive Suite</th>
 						<th>Super Deluxe</th>
@@ -39,6 +40,8 @@
 					<tr th:each="roomStatus : ${reservations}" style="text-align: center;"
 						th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">
 						<td th:text="${roomStatus.reservationDate}"></td>
+						
+						<td th:text="${roomStatus.week}"></td>
 
 						<td style="text-align: center;">
 							<span th:if="${roomStatus.room1Status} != '0'" style="color: red;">예약 불가</span>
@@ -71,10 +74,12 @@
 					<tr th:each="roomStatus : ${reservations}" style="text-align: center;"
 						th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
 						<td th:text="${roomStatus.reservationDate}"></td>
+						
+						<td th:text="${roomStatus.week}"></td>
 
 						<td style="text-align: center;">
 							<span th:if="${roomStatus.room1Status != '0'}">
-								<a th:href="@{/bookUpdate}" th:text="${roomStatus.room1Status}" style="color: blue;"></a>
+								<a th:href="@{'/bookUpdate?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=1'}" th:text="${roomStatus.room1Status}" style="color: blue;"></a>
 							</span>
 							<span th:unless="${roomStatus.room1Status} != '0'">
 								<a
@@ -83,7 +88,7 @@
 							</span>
 						<td style="text-align: center;">
 							<span th:if="${roomStatus.room2Status != '0'}">
-								<a th:href="@{/bookUpdate}" th:text="${roomStatus.room2Status}" style="color: blue;"></a>
+								<a th:href="@{'/bookUpdate?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=1'}" th:text="${roomStatus.room1Status}" style="color: blue;"></a>
 							</span>
 							<span th:unless="${roomStatus.room2Status} != '0'">
 								<a
@@ -93,7 +98,7 @@
 						</td>
 						<td style="text-align: center;">
 							<span th:if="${roomStatus.room3Status != '0'}">
-								<a th:href="@{/bookUpdate}" th:text="${roomStatus.room3Status}" style="color: blue;"></a>
+								<a th:href="@{'/bookUpdate?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=1'}" th:text="${roomStatus.room1Status}" style="color: blue;"></a>
 							</span> <span th:unless="${roomStatus.room3Status} != '0'">
 								<a
 									th:href="@{'/reserveClick?reservationDate=' + ${roomStatus.reservationDate} + '&roomId=3'}">예약

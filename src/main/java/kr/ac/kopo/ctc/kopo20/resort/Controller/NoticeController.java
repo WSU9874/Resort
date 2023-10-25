@@ -1,6 +1,7 @@
 package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.ac.kopo.ctc.kopo20.resort.domain.Member;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.dto.NoticeDTO;
+import kr.ac.kopo.ctc.kopo20.resort.service.MemberService;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeCommentServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.PageService;
@@ -27,6 +30,9 @@ public class NoticeController {
 
 	@Autowired
 	Serv.NoticeCommentService noCSer = new NoticeCommentServiceImpl();
+	
+	@Autowired
+	MemberService mser = new MemberService();
 	
 	@Autowired
 	PageService pSer = new PageService();
@@ -62,7 +68,10 @@ public class NoticeController {
 	}
 
 	@GetMapping("/noticeOne")
-	public String findById(Model model, @RequestParam("noticeId") Long noticeId, Notice notice, NoticeDTO dto) {
+	public String findById(Model model, @RequestParam("noticeId") Long noticeId, Notice notice, NoticeDTO dto, Principal principal) {
+		String userid=principal.getName();
+        Member member=mser.findOneUserId(userid).orElse(new Member());
+        model.addAttribute("user", member);
 		notice = noSer.readOneNotice(noticeId).orElse(new Notice());
 		model.addAttribute("notice", notice);
 		model.addAttribute("noticeId", noticeId);
@@ -70,9 +79,9 @@ public class NoticeController {
 		noSer.viewCount(notice);
 		return "noticeOne";
 	}
-
-	@GetMapping("/deleteDB")
-	public String delete(Notice notice, Long noticeId) throws IOException {
+	
+	@PostMapping("/deleteDB")
+	public String delete(Notice notice, @RequestParam("noticeId") Long noticeId) throws IOException {
 
 		noSer.deleteOneNotice(notice, noticeId);
 

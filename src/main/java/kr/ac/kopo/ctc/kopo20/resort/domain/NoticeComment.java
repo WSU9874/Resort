@@ -6,6 +6,8 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ public class NoticeComment{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long commentId;
 	
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "noticeId")
 	private Notice notice;

@@ -114,7 +114,7 @@
 				type: "get",
 				contentType: 'application/json',
 				async: false,
-				url: "http://localhost:8082/auth/idCheck",
+				url: "http://192.168.23.69:8082/auth/idCheck",
 				data: {userid: userid},
 
 				success: function (result) {
@@ -151,7 +151,7 @@
 		function checkNick() {
 			const nickname = $('#nickname').val(); //id값이 "id"인 입력란의 값을 저장
 			$.ajax({
-				url: "http://localhost:8082/auth/nickCheck", //Controller에서 요청 받을 주소
+				url: "http://192.168.23.69:8082/auth/nickCheck", //Controller에서 요청 받을 주소
 				type: 'get',
 				contentType: 'application/json',
 				async: false,

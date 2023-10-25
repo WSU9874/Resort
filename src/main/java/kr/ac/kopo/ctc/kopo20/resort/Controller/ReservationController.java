@@ -1,9 +1,12 @@
 package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
 import java.security.Principal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,12 +65,17 @@ public class ReservationController {
 	@GetMapping("/reservationStatus")
 	public String requestReservationList(Model model) {
 		LocalDate today = LocalDate.now();
+		
 		List<Reservation> listofReservation = reSer.readAllReservation();
 		List<RoomStatus> roomStatusList = new ArrayList<RoomStatus>();
-		for (int i = 0; i < 31; i++) {
+		for (int i = 0; i < 31; i++) {			
 			RoomStatus roomStatus = new RoomStatus("0", "0", "0");
+			LocalDate currentDate = today.plusDays(i);
+			DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
+            String dayOfWeekString = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.US);
+            
 			roomStatus.setReservationDate(today.plusDays(i).toString());
-
+			roomStatus.setWeek(dayOfWeekString);
 			roomStatusList.add(roomStatus);
 		}
 		for (RoomStatus roomStatus : roomStatusList) {
@@ -129,7 +137,13 @@ public class ReservationController {
 	}
 	
 	@GetMapping("/bookUpdate")
-	public String bookUpdate() {
+	public String bookUpdate(Model model, @RequestParam("reservationDate") String reservationDate,@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto, Principal principal) {
+		model.addAttribute("reservationDate", reservationDate);
+		model.addAttribute("roomId", roomId);
+
+		String userid=principal.getName();
+        Member member=mser.findOneUserId(userid).orElse(new Member());
+        model.addAttribute("user", member);
 		return "bookUpdate";
 	}
 
