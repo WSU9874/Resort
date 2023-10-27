@@ -38,27 +38,27 @@
 					</div>
 					<div class="col-lg-6">
 						<div class="wow fadeInUp" data-wow-delay="0.2s">
-							<form method="post">
+							<form method="post" id="myForm">
 								<div class="row g-3">
 									<div class="col-md-6">
 										<div class="form-floating">
 											<input type="text" class="form-control" name="name"
 												th:value="${#authentication.principal.username}" id="name"
-												placeholder="User name" disabled>
+												placeholder="User name" readonly>
 											<label for="name">User name</label>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-floating">
 											<input type="email" class="form-control" id="email" placeholder="Your Email"
-												th:value="${user?.email}" name="email">
+												th:value="${user?.email}" name="email" readonly>
 											<label for="email">Your Email</label>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-floating date" id="date3" data-target-input="nearest">
 											<input type="text" class="form-control" name="Check In"
-												th:value="${reservationDate}" placeholder="Check In">
+												th:value="${reservationDate}" placeholder="Check In" readonly>
 											<label for="Check In">Check in</label>
 
 										</div>
@@ -66,7 +66,7 @@
 									<div class="col-md-6">
 										<div class="form-floating date" id="phoneNum" data-target-input="nearest">
 											<input type="text" class="form-control" name="phoneNum"
-												th:value="${user?.phone}" placeholder="phoneNum">
+												th:value="${user?.phone}" placeholder="phoneNum" readonly>
 											<label for="phoneNum">phoneNum</label>
 
 										</div>
@@ -84,7 +84,7 @@
 									<div class="col-md-6">
 										<div class="form-floating">
 											<select class="form-select" id="select2" name="childCount">
-												<option value="1">Child 0</option>
+												<option value="0">Child 0</option>
 												<option value="1">Child 1</option>
 												<option value="2">Child 2</option>
 												<option value="3">Child 3</option>
@@ -95,7 +95,7 @@
 									<div class="col-12">
 										<div class="form-floating">
 											Room Number
-											<input type="text" name="root_id" th:value="${roomId}" disabled>
+											<input type="text" name="root_id" th:value="${roomId}" readonly>
 										</div>
 									</div>
 									<div class="col-12">
@@ -106,7 +106,8 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+										<button class="btn btn-primary w-100 py-3" type="submit">Book
+											Now</button>
 									</div>
 								</div>
 							</form>
@@ -117,5 +118,29 @@
 		</div>
 		<!-- Booking End -->
 	</body>
+	<div th:attr="data-writer=${#authentication.principal.username}"></div>
+	<script>
+
+		document.getElementById("myForm").addEventListener("load", function (event) {
+
+			event.preventDefault();
+
+			success();
+		});
+
+		function success() {
+			const writer = document.querySelector('[data-writer]').getAttribute('data-writer');
+			alert("예약이 완료되었습니다. ");
+			if (window.confirm('예약을 확인 하시겠습니까?')) {
+				window.location.href = '/booked?name=' + writer;
+
+			}
+			else {
+				window.location.href = '/reservationStatus';
+			}
+
+		}
+
+	</script>
 
 </html>

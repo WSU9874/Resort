@@ -2,57 +2,225 @@
 <html lang="en" xmlns="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="views/shared/_layout">
 <div layout:fragment="content">
 
+	<style>
+		#overlappedID,
+		#overlappedPhone {
+			background-color: GhostWhite;
+
+		}
+
+		.olmessagef {
+			color: red;
+			font-style: Italic;
+		}
+
+		.olmessaget {
+			color: blue;
+			font-style: Italic;
+		}
+	</style>
+
 	<body>
 		<br />
+		<div class="container" style="width: 50%;">
 			<form th:action="@{/infoUpdate/{id}(id=${user?.id})}" method="post" name="1">
-		<div class="container">
-			<h3 class="form-signin-heading text-center mb-5">마이 페이지</h3>
-			<input th:value="${user?.id}" type="hidden" id="id" name="id"></input>
-			<h3 class="overview-normalize">아이디</h3>
-			<p th:text="${user?.userid}">
-			</p>
-			<hr />
+				<h3 class="form-signin-heading text-center mb-5">마이 페이지</h3>
+				<input th:value="${user?.id}" type="hidden" id="id" name="id"></input>
+				<h3 class="overview-normalize">아이디</h3>
+				<p th:text="${user?.userid}">
+				</p>
+				<hr />
 
-			<h3 class='overview-normalize'>역할</h3>
-			<p th:text="${user?.roles}"></p>
-			<hr />
+				<h3 class='overview-normalize'>역할</h3>
+				<p th:text="${user?.roles}"></p>
+				<hr />
 
-			<h3 class='overview-normalize'>이메일</h3>
-			<div class="form-floating">
-				<input type="email" class="form-control" id="email" placeholder="Your Email" th:value="${user?.email}"
-					name="email">
-				<label for="email">Your Email</label>
-			</div>
-			<hr />
+				<h3 class='overview-normalize'>이메일</h3>
+				<div class="form-floating">
+					<input type="email" class="form-control" id="email" placeholder="Your Email"
+						th:value="${user?.email}" name="email" oninput="checkEmail()" required>
+					<label for="email">Your Email</label>
+					<span id="olmessage4"></span>
+				</div>
+				<hr />
 
-			<h3 class='overview-normalize'>휴대폰 번호</h3>
-			<div class="form-floating">
-				<input type="tel" class="form-control" id="phone" placeholder="Your Email" th:value="${user?.phone}"
-					name="phone">
-				<label for="phone">Your Phone Number</label>
-			</div>
-			<hr />
+				<h3 class='overview-normalize'>휴대폰 번호</h3>
+				<div class="form-floating" style="display: flex; justify-content: space-between; align-items: center;">
 
-			<h3 class='overview-normalize'>주소</h3>
-			<div class="form-floating">
-				<input type="text" class="form-control" id="address" placeholder="Your Email" th:value="${user?.address}"
-					name="address">
-				<label for="address">Your Address</label>
-			</div>
-			<hr />
+					<input type="tel" class="form-control" id="phone" placeholder="Your Phone" th:value="${user?.phone}"
+						name="phone" oninput="autoHyphen(this)" maxlength="13" style="width: 60%;" required>
+					<label for="phone">Your Phone Number</label>
 
-			<h3 class='overview-normalize'>닉네임</h3>
-			<div class="form-floating">
-				<input type="text" class="form-control" id="nickname" placeholder="Your Email" th:value="${user?.nickname}"
-					name="nickname">
-				<label for="nickname">Your Nick Name</label>
-			</div>
-			<hr />
-				<button type='submit' class='btn btn-sm btn-success btn-block'>수정 완료</button>
+					<button id="overlappedPhone" type="button">중복확인</button>
+
+				</div>
+				<span id="olmessage5"></span>
+
+				<hr />
+
+				<h3 class='overview-normalize'>주소</h3>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="address" placeholder="Your Email"
+						th:value="${user?.address}" name="address" required>
+					<label for="address">Your Address</label>
+				</div>
+				<hr />
+
+				<h3 class='overview-normalize'>닉네임</h3>
+				<div class="form-floating">
+					<input type="text" class="form-control" id="nickname" placeholder="Your Nick Name"
+						th:value="${user?.nickname}" name="nickname" required oninput="checkNick()">
+					<label for="nickname">Your Nick Name</label>
+					<span id="olmessage3"></span>
+				</div>
+				<hr />
+				<button type='submit' class='btn btn-sm btn-success btn-block' onclick="check()">수정 완료</button>
 			</form>
 		</div>
 		<br />
+
 	</body>
-</div>
+
+	<script>
+		//닉네임 중복체크
+		function checkNick() {
+			const nickname = $('#nickname').val().trim();  //id값이 "id"인 입력란의 값을 저장
+			// 정규식을 사용하여 공백이나 특수문자를 체크
+			if (nickname === "" || /[\s!@#$%^&*(),.?":{}|<>]/.test(nickname)) {
+				$("#olmessage3").html("<font>공백이나 특수문자는 사용 할 수 없습니다.</font>");
+				$("#olmessage3").addClass("olmessagef");
+				$("#olmessage3").removeClass("olmessaget");
+			} else {
+				$.ajax({
+					url: "http://192.168.23.69:8082/auth/nickCheck",
+					type: 'get',
+					contentType: 'application/json',
+					async: false,
+					data: {nickname: nickname},
+					success: function (result) {
+						if (result === false) {
+							$("#olmessage3").html("<font>사용 가능한 닉네임 입니다.</font>");
+							$("#olmessage3").addClass("olmessaget");
+							$("#olmessage3").removeClass("olmessagef");
+						} else if (result === true) {
+							$("#olmessage3").html("<font>사용 중인 닉네임 입니다.</font>");
+							$("#olmessage3").addClass("olmessagef");
+							$("#olmessage3").removeClass("olmessaget");
+						}
+					},
+					error: function () {
+						$("#olmessage3").html("<font>에러가 발생했습니다.</font>");
+						$("#olmessage3").addClass("olmessagef");
+						$("#olmessage3").removeClass("olmessaget");
+					}
+				});
+			}
+		};
+
+		// 이메일 중복체크 및 이메일 형식 검증
+		function checkEmail() {
+			const email = $('#email').val().trim();  // 입력란의 값을 저장
+
+			// 이메일 형식을 체크하는 정규식
+			const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+			// 이메일 형식이 유효한지 검증
+			if (!emailPattern.test(email)) {
+				$("#olmessage4").html("<font>올바른 이메일 형식이 아닙니다.</font>");
+				$("#olmessage4").addClass("olmessagef");
+				$("#olmessage4").removeClass("olmessaget");
+			} else {
+				$.ajax({
+					url: "http://192.168.23.69:8082/auth/emailCheck",
+					type: 'get',
+					contentType: 'application/json',
+					async: false,
+					data: {email: email},
+					success: function (result) {
+						if (result === false) {
+							$("#olmessage4").html("<font>사용 가능한 이메일 입니다.</font>");
+							$("#olmessage4").addClass("olmessaget");
+							$("#olmessage4").removeClass("olmessagef");
+						} else if (result === true) {
+							$("#olmessage4").html("<font>사용 중인 이메일 입니다.</font>");
+							$("#olmessage4").addClass("olmessagef");
+							$("#olmessage4").removeClass("olmessaget");
+						}
+					},
+					error: function () {
+						$("#olmessage4").html("<font>에러가 발생했습니다.</font>");
+						$("#olmessage4").addClass("olmessagef");
+						$("#olmessage4").removeClass("olmessaget");
+					}
+				});
+			}
+		};
+
+		//휴대폰 번호 형식 검증
+		$("#overlappedPhone").click(function () {
+			const phone = $("#phone").val().trim();
+
+			// 휴대폰 번호 형식을 체크하는 정규식
+			const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/;
+
+			// 휴대폰 번호 형식이 유효한지 검증
+			if (!phonePattern.test(phone)) {
+				$("#olmessage5").text("올바른 휴대폰 번호 형식이 아닙니다.");
+				$("#olmessage5").addClass("olmessagef");
+				$("#olmessage5").removeClass("olmessaget");
+				$("#signup").attr("type", "button");
+			} else {
+				$.ajax({
+					type: "get",
+					contentType: 'application/json',
+					async: false,
+					url: "http://192.168.23.69:8082/auth/phoneCheck",
+					data: {phone: phone},
+					success: function (result) {
+						if (result == true) {
+							$("#olmessage5").text("이미 사용 중인 번호입니다.");
+							$("#olmessage5").addClass("olmessagef");
+							$("#olmessage5").removeClass("olmessaget");
+							$("#signup").attr("type", "button");
+						} else {
+							$("#olmessage5").text("사용 가능한 번호입니다.");
+							$("#olmessage5").addClass("olmessaget");
+							$("#olmessage5").removeClass("olmessagef");
+							$("#signup").attr("type", "submit");
+						}
+					}
+				});
+			}
+		});
+
+		//공백 특수문자
+		function check() {
+
+			var str = document.getElementById('userid');
+			var nickname = document.getElementById('nickname');
+			var address = document.getElementById('address');
+			var phone = document.getElementById('phone');
+			var regex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+
+
+			if (str.value == '' || str.value == null || nickname.value == '' || nickname.value == null || address.value == '' || address.value == null) {
+				alert('값을 입력해주세요');
+				return false;
+			}
+
+			if (str.value.search(/\W|\s/g) > -1 || nickname.value.search(/\W|\s/g) > -1 || address.value.search(/\W|\s/g) > -1) {
+				alert('특수문자 또는 공백을 입력할 수 없습니다.');
+				str.focus();
+				return false;
+			}
+		}
+
+		const autoHyphen = (target) => {
+			target.value = target.value
+				.replace(/[^0-9]/g, '')
+				.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
+
+	</script>
 
 </html>

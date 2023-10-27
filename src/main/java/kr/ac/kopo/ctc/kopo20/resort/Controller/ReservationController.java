@@ -44,7 +44,6 @@ public class ReservationController {
 		re.setAdultCount(dto.getAdultCount());
 		re.setPhoneNum(dto.getPhoneNum());
 		re.setRequest(dto.getRequest());
-
 		re.setReservationDate(now.toString());
 
 		reSer.create(re);
@@ -100,7 +99,9 @@ public class ReservationController {
 	}
 
 	@GetMapping("/reserveClick")
-	public String click(Model model, @RequestParam("reservationDate") String reservationDate,@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto, Principal principal) {
+	public String click(Model model, @RequestParam("reservationDate") String reservationDate,
+			@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto, 
+			Principal principal) {
 
 		model.addAttribute("reservationDate", reservationDate);
 		model.addAttribute("roomId", roomId);
@@ -137,7 +138,8 @@ public class ReservationController {
 	}
 	
 	@GetMapping("/bookUpdate")
-	public String bookUpdate(Model model, @RequestParam("reservationDate") String reservationDate,@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto, Principal principal) {
+	public String bookUpdate(Model model, @RequestParam("reservationDate") String reservationDate,
+			@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto, Principal principal) {
 		model.addAttribute("reservationDate", reservationDate);
 		model.addAttribute("roomId", roomId);
 
@@ -146,5 +148,4 @@ public class ReservationController {
         model.addAttribute("user", member);
 		return "bookUpdate";
 	}
-
 }

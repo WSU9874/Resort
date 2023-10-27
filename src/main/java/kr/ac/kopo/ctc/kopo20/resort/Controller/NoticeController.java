@@ -69,7 +69,10 @@ public class NoticeController {
 
 	@GetMapping("/noticeOne")
 	public String findById(Model model, @RequestParam("noticeId") Long noticeId, Notice notice, NoticeDTO dto, Principal principal) {
-		String userid=principal.getName();
+		String userid=null;
+		if(principal!=null) {
+		userid=principal.getName();
+		}
         Member member=mser.findOneUserId(userid).orElse(new Member());
         model.addAttribute("user", member);
 		notice = noSer.readOneNotice(noticeId).orElse(new Notice());

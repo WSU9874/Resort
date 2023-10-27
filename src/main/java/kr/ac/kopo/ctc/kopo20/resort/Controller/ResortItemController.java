@@ -1,30 +1,11 @@
 package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.ac.kopo.ctc.kopo20.resort.domain.Member;
-import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
-import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
-import kr.ac.kopo.ctc.kopo20.resort.domain.RoomStatus;
-import kr.ac.kopo.ctc.kopo20.resort.dto.NoticeDTO;
-import kr.ac.kopo.ctc.kopo20.resort.dto.ReserveDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import kr.ac.kopo.ctc.kopo20.resort.service.MemberService;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeCommentServiceImpl;
 import kr.ac.kopo.ctc.kopo20.resort.service.NoticeServiceImpl;
@@ -112,8 +93,12 @@ public class ResortItemController {
 	}
 	
 	@GetMapping("/login")
-	public String loginPage() {
-		return "login";
+	public String loginPage(HttpServletRequest request, Model model) {
+		String uri = request.getHeader("Referer");
+	    if (uri != null && !uri.contains("/login")) {
+	        request.getSession().setAttribute("prevPage", uri);
+	    }
+	    return "login";
 	}
 
 	@GetMapping("/join")

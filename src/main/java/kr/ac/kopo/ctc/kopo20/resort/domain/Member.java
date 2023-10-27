@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,12 +28,16 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(length = 20, nullable = false, unique = true)
+	@NotEmpty(message = "사용자ID는 필수항목입니다.")
 	private String userid;
 	@Column(nullable = false, unique = true)
+	@NotEmpty(message = "비밀번호는 필수항목입니다.")
 	private String pw;
 	@Column
 	private String roles;
 	@Column
+	@Email
+	@NotEmpty(message = "이메일은 필수항목입니다.")
 	private String email;
 	@Column
 	private String phone;

@@ -61,12 +61,14 @@
 			<br /><br />
 			<div style="display: flex; justify-content: flex-end;">
 				<form th:action="@{/modify/{noticeId}(noticeId=${notice.noticeId})}" method="post" name="1">
-					<button class='btn btn-sm btn-success btn-block' type="submit" th:if="${notice.writer == user?.nickname}">수정</button>
+					<button class='btn btn-sm btn-success btn-block' type="submit"
+						th:if="${notice.writer == user?.nickname}">수정</button>
 				</form>
 
 				<form method='post' action="/deleteDB">
 					<input type="hidden" name="noticeId" th:value="${notice.noticeId}" />
-					<button type='submit' class='btn btn-sm btn-danger btn-block' th:if="${notice.writer == user?.nickname}">삭제</button>
+					<button type='submit' class='btn btn-sm btn-danger btn-block'
+						th:if="${notice.writer == user?.nickname}">삭제</button>
 				</form>
 
 				<a th:href="@{/notice}"><button class='btn btn-sm btn-info btn-block' type="button">목록</button></a>
@@ -74,16 +76,14 @@
 
 
 		</div>
-
-
-
-
-
+		<div data-writer="some-value"></div>
 		<div th:attr="data-num=${noticeId}"></div>
 		<div th:attr="data-writer=${user?.nickname}"></div>
+
 	</body>
 	<!--/* 댓글 작성 */-->
-	<div class="cm_write" style="text-align: center; max-width: 800px; margin: 0 auto;">
+	<div class="cm_write" style="text-align: center; max-width: 800px; margin: 0 auto;"
+		sec:authorize="isAuthenticated()">
 		<fieldset>
 			<legend class="skipinfo">Comment</legend>
 			<div class="cm_input">
@@ -201,7 +201,6 @@
 
 				const noticeId = document.querySelector('[data-num]').getAttribute('data-num');
 				const writer = document.querySelector('[data-writer]').getAttribute('data-writer');
-
 
 
 				$.ajax({

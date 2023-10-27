@@ -12,7 +12,8 @@
 	<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<style>
-		#overlappedID {
+		#overlappedID,
+		#overlappedPhone {
 			background-color: GhostWhite;
 			width: 30%;
 			height: 30px;
@@ -33,7 +34,7 @@
 <body>
 	<div class='container'>
 		<form class='form-signin' id='join_form'>
-			<h2 class='form-signin-heading text-center mb-5'>회원가입!</h2>
+			<h2 class='form-signin-heading text-center mb-5'>회원가입</h2>
 
 			<p>
 				<input type="text" id="userid" name="userid" placeholder="아이디" minlength="4" maxlength="15" required
@@ -54,17 +55,23 @@
 
 			<p>
 				<label for='email' class='sr-only'>이메일 </label>
-				<input type='email' id='email' name="email" class="form-control" placeholder="이메일 " required>
+				<input type='email' id='email' name="email" class="form-control" placeholder="이메일 "
+					oninput="checkEmail()" required>
+				<span id="olmessage4"></span>
 			</p>
 			<p>
 				<label for='nickname' class='sr-only'>닉네임 </label>
-				<input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임" required oninput="checkNick()">
+				<input type="text" id="nickname" name="nickname" class="form-control" placeholder="닉네임" required
+					oninput="checkNick()">
 				<span id="olmessage3"></span>
 			</p>
-			
+
 			<p>
 				<label for='phone' class='sr-only'>휴대폰번호 </label>
-				<input type='tel' id='phone' name="phone" class="form-control" placeholder="휴대폰번호 " required>
+				<input type='tel' id='phone' name="phone" placeholder="휴대폰번호 " oninput="autoHyphen(this)" maxlength="13"
+					required>
+				<button id="overlappedPhone" type="button">중복확인</button><br>
+				<span id="olmessage5"></span>
 			</p>
 			<p>
 				<label for='address' class='sr-only'>주소 </label>
@@ -72,7 +79,7 @@
 			</p>
 
 
-			<button type="button" class="btn btn-lg btn-primary btn-block" id="signup">회원가입 </button>
+			<button type="button" class="btn btn-lg btn-primary btn-block" id="signup" onclick="check()">회원가입 </button>
 		</form>
 	</div>
 
@@ -107,29 +114,36 @@
 		//아이디 중복 체크
 
 		$("#overlappedID").click(function () {
-			$("#signup").attr("type", "button");
-
 			const userid = $("#userid").val();
-			$.ajax({
-				type: "get",
-				contentType: 'application/json',
-				async: false,
-				url: "http://192.168.23.69:8082/auth/idCheck",
-				data: {userid: userid},
 
-				success: function (result) {
-					if (result == true) {
-						$("#olmessage").text("이미 사용중인 ID 입니다.");
-						$("#olmessage").addClass("olmessagef");
-						$("#olmessage").removeClass("olmessaget");
-					} else {
-						$("#olmessage").text("사용 가능한 ID 입니다.");
-						$("#olmessage").addClass("olmessaget");
-						$("#olmessage").removeClass("olmessagef");
-						$("#signup").attr("type", "submit");
+			// 정규식을 사용하여 공백이나 특수문자를 체크
+			if (userid.trim() === "" || /[\s!@#$%^&*(),.?":{}|<>]/.test(userid)) {
+				$("#olmessage").text("공백이나 특수문자는 사용 할 수 없습니다.");
+				$("#olmessage").addClass("olmessagef");
+				$("#olmessage").removeClass("olmessaget");
+				$("#signup").attr("type", "button");
+			} else {
+				$.ajax({
+					type: "get",
+					contentType: 'application/json',
+					async: false,
+					url: "http://192.168.23.69:8082/auth/idCheck",
+					data: {userid: userid},
+					success: function (result) {
+						if (result == true) {
+							$("#olmessage").text("이미 사용 중인 ID입니다.");
+							$("#olmessage").addClass("olmessagef");
+							$("#olmessage").removeClass("olmessaget");
+							$("#signup").attr("type", "button");
+						} else {
+							$("#olmessage").text("사용 가능한 ID입니다.");
+							$("#olmessage").addClass("olmessaget");
+							$("#olmessage").removeClass("olmessagef");
+							$("#signup").attr("type", "submit");
+						}
 					}
-				}
-			})
+				});
+			}
 		});
 
 		$(function () {
@@ -149,31 +163,145 @@
 		});
 		//닉네임 중복체크
 		function checkNick() {
-			const nickname = $('#nickname').val(); //id값이 "id"인 입력란의 값을 저장
-			$.ajax({
-				url: "http://192.168.23.69:8082/auth/nickCheck", //Controller에서 요청 받을 주소
-				type: 'get',
-				contentType: 'application/json',
-				async: false,
-				data: {nickname: nickname},
-				success: function (result) { 
-					if (result == false) { 
-						$("#olmessage3").html("<font>사용 가능한 닉네임 입니다.</font>");
-						$("#olmessage3").addClass("olmessaget");
-						$("#olmessage3").removeClass("olmessagef");
-					} else if (result == true) { 
-						$("#olmessage3").html("<font>사용 중인 닉네임 입니다.</font>");
+			const nickname = $('#nickname').val().trim();  //id값이 "id"인 입력란의 값을 저장
+			// 정규식을 사용하여 공백이나 특수문자를 체크
+			if (nickname === "" || /[\s!@#$%^&*(),.?":{}|<>]/.test(nickname)) {
+				$("#olmessage3").html("<font>공백이나 특수문자는 사용 할 수 없습니다.</font>");
+				$("#olmessage3").addClass("olmessagef");
+				$("#olmessage3").removeClass("olmessaget");
+			} else {
+				$.ajax({
+					url: "http://192.168.23.69:8082/auth/nickCheck",
+					type: 'get',
+					contentType: 'application/json',
+					async: false,
+					data: {nickname: nickname},
+					success: function (result) {
+						if (result === false) {
+							$("#olmessage3").html("<font>사용 가능한 닉네임 입니다.</font>");
+							$("#olmessage3").addClass("olmessaget");
+							$("#olmessage3").removeClass("olmessagef");
+						} else if (result === true) {
+							$("#olmessage3").html("<font>사용 중인 닉네임 입니다.</font>");
+							$("#olmessage3").addClass("olmessagef");
+							$("#olmessage3").removeClass("olmessaget");
+						}
+					},
+					error: function () {
+						$("#olmessage3").html("<font>에러가 발생했습니다.</font>");
 						$("#olmessage3").addClass("olmessagef");
 						$("#olmessage3").removeClass("olmessaget");
-
-						//						$('#nickName').val('');
 					}
-				},
-				error: function () {
-					alert("에러입니다");
-				}
-			});
+				});
+			}
 		};
+
+		// 이메일 중복체크 및 이메일 형식 검증
+		function checkEmail() {
+			const email = $('#email').val().trim();  // 입력란의 값을 저장
+
+			// 이메일 형식을 체크하는 정규식
+			const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+			// 이메일 형식이 유효한지 검증
+			if (!emailPattern.test(email)) {
+				$("#olmessage4").html("<font>올바른 이메일 형식이 아닙니다.</font>");
+				$("#olmessage4").addClass("olmessagef");
+				$("#olmessage4").removeClass("olmessaget");
+			} else {
+				$.ajax({
+					url: "http://192.168.23.69:8082/auth/emailCheck",
+					type: 'get',
+					contentType: 'application/json',
+					async: false,
+					data: {email: email},
+					success: function (result) {
+						if (result === false) {
+							$("#olmessage4").html("<font>사용 가능한 이메일 입니다.</font>");
+							$("#olmessage4").addClass("olmessaget");
+							$("#olmessage4").removeClass("olmessagef");
+						} else if (result === true) {
+							$("#olmessage4").html("<font>사용 중인 이메일 입니다.</font>");
+							$("#olmessage4").addClass("olmessagef");
+							$("#olmessage4").removeClass("olmessaget");
+						}
+					},
+					error: function () {
+						$("#olmessage4").html("<font>에러가 발생했습니다.</font>");
+						$("#olmessage4").addClass("olmessagef");
+						$("#olmessage4").removeClass("olmessaget");
+					}
+				});
+			}
+		};
+
+		//휴대폰 번호 형식 검증
+		$("#overlappedPhone").click(function () {
+			const phone = $("#phone").val().trim();
+
+			// 휴대폰 번호 형식을 체크하는 정규식
+			const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/;
+
+			// 휴대폰 번호 형식이 유효한지 검증
+			if (!phonePattern.test(phone)) {
+				$("#olmessage5").text("올바른 휴대폰 번호 형식이 아닙니다.");
+				$("#olmessage5").addClass("olmessagef");
+				$("#olmessage5").removeClass("olmessaget");
+				$("#signup").attr("type", "button");
+			} else {
+				$.ajax({
+					type: "get",
+					contentType: 'application/json',
+					async: false,
+					url: "http://192.168.23.69:8082/auth/phoneCheck",
+					data: {phone: phone},
+					success: function (result) {
+						if (result == true) {
+							$("#olmessage5").text("이미 사용 중인 번호입니다.");
+							$("#olmessage5").addClass("olmessagef");
+							$("#olmessage5").removeClass("olmessaget");
+							$("#signup").attr("type", "button");
+						} else {
+							$("#olmessage5").text("사용 가능한 번호입니다.");
+							$("#olmessage5").addClass("olmessaget");
+							$("#olmessage5").removeClass("olmessagef");
+							$("#signup").attr("type", "submit");
+						}
+					}
+				});
+			}
+		});
+
+
+
+		//공백 특수문자
+		function check() {
+
+			var str = document.getElementById('userid');
+			var nickname = document.getElementById('nickname');
+			var address = document.getElementById('address');
+			var phone = document.getElementById('phone');
+			var regex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+
+
+			if (str.value == '' || str.value == null || nickname.value == '' || nickname.value == null || address.value == '' || address.value == null) {
+				alert('값을 입력해주세요');
+				return false;
+			}
+
+			if (str.value.search(/\W|\s/g) > -1 || nickname.value.search(/\W|\s/g) > -1 || address.value.search(/\W|\s/g) > -1) {
+				alert('특수문자 또는 공백을 입력할 수 없습니다.');
+				str.focus();
+				return false;
+			}
+		}
+
+		const autoHyphen = (target) => {
+			target.value = target.value
+				.replace(/[^0-9]/g, '')
+				.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+		}
+
 
 	</script>
 

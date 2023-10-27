@@ -58,6 +58,22 @@ public class AuthorizationController {
 	@Transactional
 	public boolean overlappedNick(@RequestParam("nickname") String nickname) throws Exception {
 		boolean result = repository.existsByNickname(nickname); // 중복확인한 값을 int로 받음
+		return result;
+	}
+	
+	@ResponseBody // 값 변환을 위해 꼭 필요함
+	@GetMapping("/emailCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+	public boolean overlappedEmail(@RequestParam("email") String email) throws Exception {
+		boolean result = repository.existsByEmail(email); // 중복확인한 값을 int로 받음
+		return result;
+	}
+	
+	@ResponseBody // 값 변환을 위해 꼭 필요함
+	@GetMapping("/phoneCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+	@Transactional
+	public boolean overlappedPhone(@RequestParam("phone") String phone) throws Exception {
+		String num = phone.replaceAll("-", "");
+		boolean result = repository.existsByPhone(num); // 중복확인한 값을 int로 받음
 		System.out.println(result);
 		return result;
 	}
