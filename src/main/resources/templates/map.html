@@ -1,70 +1,55 @@
-
 <!DOCTYPE html>
-<!--
- @license
- Copyright 2019 Google LLC. All Rights Reserved.
- SPDX-License-Identifier: Apache-2.0
--->
 <html>
   <head>
-    <title>Street View split-map-panes</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <title>Simple Marker</title>
+    <script type ="text/javascript" src="/js/apikey.js"></script>
     <script>
-      /**
-       * @license
-       * Copyright 2019 Google LLC. All Rights Reserved.
-       * SPDX-License-Identifier: Apache-2.0
-       */
-      function initialize() {
-        const fenway = { lat: 37.3860521, lng: 127.1214038 };
-        const map = new google.maps.Map(document.getElementById("map"), {
-          center: fenway,
-          zoom: 14,
-        });
-        const panorama = new google.maps.StreetViewPanorama(
-          document.getElementById("pano"),
-          {
-            position: fenway,
-            pov: {
-              heading: 34,
-              pitch: 10,
-            },
-          }
-        );
+      // Wait for the API key to be loaded from apikey.js before initializing the map
+      window.onload = function() {
+        const API_KEY = config.apikey;
+        initMap(API_KEY);
+      };
 
-        map.setStreetView(panorama);
+      function initMap(apiKey) {
+        // Use the API key to load the Google Maps API
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMapCallback&libraries=maps,marker&v=beta`;
+        document.body.appendChild(script);
       }
 
-      window.initialize = initialize;
+      function initMapCallback() {
+        // Callback function after the Google Maps API is loaded
+        const map = new google.maps.Map(document.getElementById('map'), {
+          center: { lat: 34.40071105957031, lng: 126.32814025878906 },
+          zoom: 14
+        });
+
+        // Add a marker to the map
+        const marker = new google.maps.Marker({
+          position: { lat: 34.40071105957031, lng: 126.32814025878906 },
+          map: map,
+          title: 'My location'
+        });
+      }
     </script>
+    
     <style>
-      /**
-       * @license
-       * Copyright 2019 Google LLC. All Rights Reserved.
-       * SPDX-License-Identifier: Apache-2.0
-       */
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
       html,
       body {
         height: 100%;
         margin: 0;
         padding: 0;
       }
-
-      #map,
-      #pano {
-        float: left;
-        height: 100%;
-        width: 50%;
-      }
     </style>
   </head>
   <body>
     <div id="map"></div>
-    <div id="pano"></div>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTI9cd8EIA8xcDcK5k5OYzyJozqidMopI&callback=initialize&v=weekly"
-      defer
-    ></script>
   </body>
 </html>
-    
