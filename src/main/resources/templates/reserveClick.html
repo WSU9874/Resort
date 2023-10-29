@@ -106,7 +106,8 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<button class="btn btn-primary w-100 py-3" type="submit">Book
+										<button class="btn btn-primary w-100 py-3" type="submit"
+											onclick="openPopup()">Book
 											Now</button>
 									</div>
 								</div>
@@ -120,27 +121,35 @@
 	</body>
 	<div th:attr="data-writer=${#authentication.principal.username}"></div>
 	<script>
+		function openPopup() {
+			var popupWidth = 400;
+			var popupHeight = 300;
+			var popupLeft = (window.screen.width / 2) - (popupWidth / 2);
+			var popupTop = (window.screen.height / 2) - (popupHeight / 2);
+			// 팝업 창을 열기 위한 코드입니다.
+			var popupWindow = window.open('', '이동', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + popupLeft + ',top=' + popupTop);
 
-		document.getElementById("myForm").addEventListener("load", function (event) {
 
-			event.preventDefault();
+			// 팝업 창에 버튼 추가
+			var popupContent = '<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">';
+			popupContent += '<h2 style="text-align: center;">예약현황으로 이동하시겠습니까?</h2>';
+			popupContent += '<div style="display: flex; flex-direction: row; justify-content: center; gap: 10px;">';
+			popupContent += '<button onclick="opener.redirectToBookPage(); window.close();">예</button>';
+			popupContent += '<button onclick="opener.location.href=\'reservationStatus\'; window.close();">아니오</button>';
+			popupContent += '</div>';
 
-			success();
-		});
+			// 팝업 창에 내용 채우기
+			popupWindow.document.body.innerHTML = popupContent;
+		}
 
-		function success() {
+		function redirectToBookPage() {
 			const writer = document.querySelector('[data-writer]').getAttribute('data-writer');
-			alert("예약이 완료되었습니다. ");
-			if (window.confirm('예약을 확인 하시겠습니까?')) {
-				window.location.href = '/booked?name=' + writer;
-
-			}
-			else {
-				window.location.href = '/reservationStatus';
-			}
-
+			// 부모 창의 페이지를 "/book.html"로 이동시킵니다.
+			window.location.href = '/booked?name=' + writer;
 		}
 
 	</script>
+
+
 
 </html>

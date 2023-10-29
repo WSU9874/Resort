@@ -1,7 +1,5 @@
 package kr.ac.kopo.ctc.kopo20.resort.dto;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import jakarta.persistence.EntityManager;
+import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 
 @Repository
@@ -48,9 +49,9 @@ public class ReserveRepositoryImpl implements Repo.ReserveRepository {
 	}
 
 	@Override
-	public Reservation deleteById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteById(Reservation re, Long id) {
+		re = em.find(Reservation.class, id);
+		em.remove(re);
 	}
 
 }

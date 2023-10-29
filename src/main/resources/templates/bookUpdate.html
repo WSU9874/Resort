@@ -42,9 +42,8 @@
 								<div class="row g-3">
 									<div class="col-md-6">
 										<div class="form-floating">
-											<input type="text" class="form-control" name="name"
-												th:value="${#authentication.principal.username}" id="name"
-												placeholder="User name" disabled>
+											<input type="text" class="form-control" name="name" th:value="${user?.name}"
+												id="name" placeholder="User name" readonly>
 											<label for="name">User name</label>
 										</div>
 									</div>
@@ -58,7 +57,7 @@
 									<div class="col-md-6">
 										<div class="form-floating date" id="date3" data-target-input="nearest">
 											<input type="text" class="form-control" name="Check In"
-												th:value="${reservationDate}" placeholder="Check In">
+												th:value="${reservationDate}" placeholder="Check In" readonly>
 											<label for="Check In">Check in</label>
 
 										</div>
@@ -66,29 +65,22 @@
 									<div class="col-md-6">
 										<div class="form-floating date" id="phoneNum" data-target-input="nearest">
 											<input type="text" class="form-control" name="phoneNum"
-												th:value="${user?.phone}" placeholder="phoneNum">
+												th:value="${user?.phoneNum}" placeholder="phoneNum">
 											<label for="phoneNum">phoneNum</label>
 
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-floating">
-											<select class="form-select" id="select1" name="adultCount">
-												<option value="1">Adult 1</option>
-												<option value="2">Adult 2</option>
-												<option value="3">Adult 3</option>
-											</select>
+											<input type="text" class="form-control" name="adultCount"
+												th:value="${user?.adultCount}" placeholder="adultCount">
 											<label for="select1">Select Adult</label>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-floating">
-											<select class="form-select" id="select2" name="childCount">
-												<option value="1">Child 0</option>
-												<option value="1">Child 1</option>
-												<option value="2">Child 2</option>
-												<option value="3">Child 3</option>
-											</select>
+											<input type="text" class="form-control" name="childCount"
+												th:value="${user?.childCount}" placeholder="childCount">
 											<label for="select2">Select Child</label>
 										</div>
 									</div>
@@ -106,9 +98,13 @@
 										</div>
 									</div>
 									<div class="col-12">
-										<button class="btn btn-primary w-100 py-3" type="submit">Book Now</button>
+										<button class="btn btn-primary w-100 py-3" type="submit">Book Update</button>
 									</div>
 								</div>
+							</form>
+							<form method='post' action="/deleteBook">
+								<input type="hidden" name="id" th:value="${user?.id}" />
+								<button class="btn btn-danger w-100 py-3" type="submit">Book Delete</button>
 							</form>
 						</div>
 					</div>

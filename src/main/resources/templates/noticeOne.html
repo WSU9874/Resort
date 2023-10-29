@@ -78,7 +78,7 @@
 		</div>
 		<div data-writer="some-value"></div>
 		<div th:attr="data-num=${noticeId}"></div>
-		<div th:attr="data-writer=${user?.nickname}"></div>
+
 
 	</body>
 	<!--/* 댓글 작성 */-->
@@ -132,7 +132,6 @@
 	<th:block>
 		<script th:inline="javascript">
 			/*<![CDATA[*/
-
 			//isValid
 			function isValid(target, fieldName, focusTarget) {
 				if (target.value.trim()) {
@@ -160,12 +159,13 @@
 
 			// 댓글 저장
 			function saveComment() {
-
+				/*<![CDATA[*/
+				const writer = /*[[${user?.nickname}]]*/ 'default';
+				/*]]>*/
 				const content = document.getElementById('content');
 				isValid(content, '댓글');
 
 				const noticeId = document.querySelector('[data-num]').getAttribute('data-num');
-				const writer = document.querySelector('[data-writer]').getAttribute('data-writer');
 				const params = {
 					noticeId: noticeId,
 					content: content.value,
@@ -198,10 +198,12 @@
 
 			// 전체 댓글 조회
 			function findAllComment() {
-
+				/*<![CDATA[*/
+				const writer = /*[[${user?.nickname}]]*/ 'default';
+				/*]]>*/
 				const noticeId = document.querySelector('[data-num]').getAttribute('data-num');
-				const writer = document.querySelector('[data-writer]').getAttribute('data-writer');
 
+				console.log(writer)
 
 				$.ajax({
 					url: `/posts/${noticeId}/comments`,
@@ -222,8 +224,8 @@
 						// 3. 댓글 HTML 추가
 						response.forEach(row => {
 							const canEdit = writer === row.writer;
-							console.log(writer);
-							console.log(row.writer);
+
+
 							commentHtml += `
                         <div style="text-align: left; max-width: 800px; margin: 0 auto;">
                             <span class="writer_img"><img src="/images/default_profile.png" width="30" height="30" alt="기본 프로필 이미지"/></span>

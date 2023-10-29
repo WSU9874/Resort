@@ -74,6 +74,7 @@ public class NoticeController {
 		userid=principal.getName();
 		}
         Member member=mser.findOneUserId(userid).orElse(new Member());
+
         model.addAttribute("user", member);
 		notice = noSer.readOneNotice(noticeId).orElse(new Notice());
 		model.addAttribute("notice", notice);

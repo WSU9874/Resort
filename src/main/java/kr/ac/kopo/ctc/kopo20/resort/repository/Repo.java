@@ -20,7 +20,7 @@ public interface Repo {
 		List<Reservation> findAll();
 
 		// delete
-		Reservation deleteById(Long id);
+		void deleteById(Reservation re, Long id);
 	}
 
 	interface NoticeRepository {

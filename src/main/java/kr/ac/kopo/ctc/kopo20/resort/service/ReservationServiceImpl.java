@@ -24,9 +24,9 @@ public class ReservationServiceImpl implements Serv.ReservationListService {
 	}
 	// Read
 	@Override
-	public Reservation readOneReservation(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation readOneReservation(Long id) {
+		Reservation re = reserveRepository.findById(id).orElse(new Reservation());
+		return re;
 	}
 	
 	@Override
@@ -42,8 +42,8 @@ public class ReservationServiceImpl implements Serv.ReservationListService {
 
 	// Delete
 	@Override
-	public void deleteOneReservation(long id) {
-		reserveRepository.deleteById(id);
+	public void deleteOneReservation(Reservation re, Long id) {
+		reserveRepository.deleteById(re, id);
 	}
 	
 	@Override

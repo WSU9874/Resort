@@ -1,7 +1,5 @@
 package kr.ac.kopo.ctc.kopo20.resort.domain;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;

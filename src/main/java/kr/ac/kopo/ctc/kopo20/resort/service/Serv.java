@@ -16,13 +16,13 @@ public interface Serv {
 		// Read
 		List<Reservation> readAllReservation();
 
-		Reservation readOneReservation(long id);
+		Reservation readOneReservation(Long id);
 
 		// Update
 		void updateOneReservation(Reservation reservation);
 
 		// Delete
-		void deleteOneReservation(long id);
+		void deleteOneReservation(Reservation re, Long id);
 		
 		List<Reservation> getReservationsFor30Days();
 		

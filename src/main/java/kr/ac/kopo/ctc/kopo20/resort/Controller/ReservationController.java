@@ -1,5 +1,6 @@
 package kr.ac.kopo.ctc.kopo20.resort.Controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.kopo.ctc.kopo20.resort.domain.Member;
+import kr.ac.kopo.ctc.kopo20.resort.domain.Notice;
 import kr.ac.kopo.ctc.kopo20.resort.domain.Reservation;
 import kr.ac.kopo.ctc.kopo20.resort.domain.RoomStatus;
 import kr.ac.kopo.ctc.kopo20.resort.dto.ReserveDTO;
@@ -56,8 +58,6 @@ public class ReservationController {
 		UserDetails userDetails = (UserDetails) principal;
 		String username = ((User) principal).getUsername();
 		String password = ((User) principal).getPassword();
-		System.out.println(username);
-		System.out.println(password);
 		return "currentReserve";
 	}
 
@@ -68,7 +68,7 @@ public class ReservationController {
 		List<Reservation> listofReservation = reSer.readAllReservation();
 		List<RoomStatus> roomStatusList = new ArrayList<RoomStatus>();
 		for (int i = 0; i < 31; i++) {			
-			RoomStatus roomStatus = new RoomStatus("0", "0", "0");
+			RoomStatus roomStatus = new RoomStatus((long) 0,"0", "0", "0");
 			LocalDate currentDate = today.plusDays(i);
 			DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
             String dayOfWeekString = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.US);
@@ -76,22 +76,25 @@ public class ReservationController {
 			roomStatus.setReservationDate(today.plusDays(i).toString());
 			roomStatus.setWeek(dayOfWeekString);
 			roomStatusList.add(roomStatus);
+			
 		}
 		for (RoomStatus roomStatus : roomStatusList) {
+			
 			for (Reservation reservation : listofReservation) {
+				
 				if (roomStatus.getReservationDate().equals(reservation.getReservationDate())) {
 					if (reservation.getRoomId() == 1) {
+						roomStatus.setId(reservation.getId());
 						roomStatus.setRoom1Status(reservation.getName());
 					} else if (reservation.getRoomId() == 2) {
+						roomStatus.setId(reservation.getId());
 						roomStatus.setRoom2Status(reservation.getName());
 					} else if (reservation.getRoomId() == 3) {
+						roomStatus.setId(reservation.getId());
 						roomStatus.setRoom3Status(reservation.getName());
 					}
 				}
 			}
-		}
-		for (RoomStatus reservation : roomStatusList) {
-			System.out.println(reservation);
 		}
 		model.addAttribute("reservations", roomStatusList);
 
@@ -139,13 +142,39 @@ public class ReservationController {
 	
 	@GetMapping("/bookUpdate")
 	public String bookUpdate(Model model, @RequestParam("reservationDate") String reservationDate,
-			@RequestParam("roomId") Long roomId, Reservation reservation, ReserveDTO dto, Principal principal) {
+			@RequestParam("roomId") Long roomId,@RequestParam("id") Long id, Reservation reservation, ReserveDTO dto, Principal principal) {
 		model.addAttribute("reservationDate", reservationDate);
 		model.addAttribute("roomId", roomId);
+		model.addAttribute("id", id);
+		
+		Reservation re = reSer.readOneReservation(id);
+System.out.print(re);
+        model.addAttribute("user", re);
 
-		String userid=principal.getName();
-        Member member=mser.findOneUserId(userid).orElse(new Member());
-        model.addAttribute("user", member);
 		return "bookUpdate";
+	}
+	
+	@PostMapping("/bookUpdate")
+	public String update(ReserveDTO dto, Model model) {
+		Reservation re = reSer.readOneReservation(dto.getId());
+		
+		re.setRoomId(dto.getRoomId());
+		re.setName(dto.getName());
+		re.setEmail(dto.getEmail());
+		re.setChildCount(dto.getChildCount());
+		re.setAdultCount(dto.getAdultCount());
+		re.setPhoneNum(dto.getPhoneNum());
+		re.setRequest(dto.getRequest());
+		re.setReservationDate(dto.getReservationDate());
+
+		reSer.updateOneReservation(re);
+		return "bookUpdate";
+	}
+	@PostMapping("/deleteBook")
+	public String delete(@RequestParam("id") Long id) throws IOException {
+		Reservation re = reSer.readOneReservation(id);
+		reSer.deleteOneReservation(re, id);
+
+		return "redirect:reservationStatus";
 	}
 }

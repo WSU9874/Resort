@@ -44,14 +44,3 @@ public class Notice{
 	@OneToMany(mappedBy = "notice", orphanRemoval = true)
 	private List<NoticeComment> comment;
 }
-
-
-
-
-
-
-
-
-//@OneToMany(cascade = CascadeType.ALL, mappedBy = "notice", fetch = FetchType.LAZY)
-//@OrderBy("noticeId")
-//private Set<NoticeComment> noticeComment = new LinkedHashSet<>();
