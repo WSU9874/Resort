@@ -127,7 +127,7 @@
 					type: "get",
 					contentType: 'application/json',
 					async: false,
-					url: "http://192.168.56.1:8082/auth/idCheck",
+					url: "http://54.180.67.165:8082/auth/idCheck",
 					data: {userid: userid},
 					success: function (result) {
 						if (result == true) {
@@ -171,7 +171,7 @@
 				$("#olmessage3").removeClass("olmessaget");
 			} else {
 				$.ajax({
-					url: "http://192.168.56.1:8082/auth/nickCheck",
+					url: "http://54.180.67.165:8082/auth/nickCheck",
 					type: 'get',
 					contentType: 'application/json',
 					async: false,
@@ -210,7 +210,7 @@
 				$("#olmessage4").removeClass("olmessaget");
 			} else {
 				$.ajax({
-					url: "http://192.168.56.1:8082/auth/emailCheck",
+					url: "http://54.180.67.165:8082/auth/emailCheck",
 					type: 'get',
 					contentType: 'application/json',
 					async: false,
@@ -253,7 +253,7 @@
 					type: "get",
 					contentType: 'application/json',
 					async: false,
-					url: "http://192.168.56.1:8082/auth/phoneCheck",
+					url: "http://54.180.67.165:8082/auth/phoneCheck",
 					data: {phone: phone},
 					success: function (result) {
 						if (result == true) {
